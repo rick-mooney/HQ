@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+             <a class="navbar-brand" href="{% url 'user:home' %}">HQ</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Focus
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-item nav-link" href="/tracker/task/?search=Overdue_tasks">Overdue</a></li>
+                <li><a class="nav-item nav-link" href="/tracker/task/?search=Today_tasks">Today</a></li>
+                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_week">This Week</a></li>
+                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_month">This Month</a></li>
+            </ul>
+            </li>
+            <li><a class="nav-item nav-link" href="{% url 'user:project' %}">Projects</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other filters
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-item nav-link" href="/tracker/task/?search=short_list_tasks">Short List</a></li>
+                <li><a class="nav-item nav-link" href="/tracker/task/?search=Completed_tasks">Completed</a></li>
+                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=Deleted_tasks">Deleted</a></li>
+            </ul>
+            </li>
+        </ul>
+        <div class="rightAlign">
+            <form type="get" action="." style="margin: 0">
+                <input  id="search_box" type="text" name="search"  placeholder="{{SearchWord}}" align="right">
+                <button id="search_submit" type="submit" >Search</button> <br>
+                <p style="color:white;"> Search by task name or notes </p>
+            </form>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block body %}
+<h1> Tasks </h1>
+<div class="rightAlign">
+    <a href="{% url 'tracker:create_task' %}" class="btn btn-success"> Add Task </a> <br>
+    <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a>
+</div>
+<div class="table-responsive" align="center">
+    <table class="table-hover" width="75%">
+        <tr>
+            <th> Task Name </th>
+            <th> Category </th>
+            <th> Goal Date </th>
+            <th> Status </th>
+        </tr>
+        {% if query %}
+        {% for item in query %}
+        <tr>
+            <td> {{ item.Task_Name }} </td>
+            <td> {{ item.Category }} </td>
+            <td> {{ item.Goal_Date }} </td>
+            <td> {{ item.get_Status_display }} </td>
+            <td> <a href="{% url 'tracker:delete_task' item.id %}"> Delete </a> </td>
+            <td> <a href="{% url 'tracker:update_task' item.id %}"> Edit </a> </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <h3 align="center"> Looks like you don't have any tasks.  <br>
+        Make sure you add a <a href="{% url 'tracker:create_project' %}">project</a> first, then add tasks using the add task button. </h3>
+    {% endif %}
+</div>
+{% endblock %}

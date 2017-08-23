@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title> Profile </title>
+{% endblock %}
+
+{% block body %}
+<div class="container" style="text-align: right">
+    <a href="/user/profile/edit/" class="btn btn-default">Edit Profile </a>
+    <div class="container" style="text-align: center">
+        <img src="{{ user.userprofile.picture.url }}" alt="profile" width="140" height="140" class="img-circle">
+        <p>
+            {{ user.first_name }} {{ user.last_name }} <br>
+            {{ user.userprofile.description }}
+        </p>
+    </div>
+</div>
+
+{% endblock %}

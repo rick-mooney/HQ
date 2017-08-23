@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+{% extends 'base.html' %}
+
+{% block title %}Sign Up {% endblock %}
+{% block head %}Sign Up {% endblock %}
+{% block body %}
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class='btn btn-default' type="submit">Register</button>
+    </form>
+    <a href="/login/"> Login </a>
+</div>
+{% endblock %}

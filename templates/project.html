@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+             <a class="navbar-brand" href="{% url 'user:home' %}">HQ</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Focus
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a class="nav-item nav-link" href="/user/task/?search=Overdue_tasks">Overdue</a></li>
+                <li><a class="nav-item nav-link" href="/user/task/?search=Today_tasks">Today</a></li>
+                <li><a class="nav-item nav-link disabled" href="/user/task/?search=This_week">This Week</a></li>
+                <li><a class="nav-item nav-link disabled" href="/user/task/?search=This_month">This Month</a></li>
+            </ul>
+            </li>
+            <li><a class="nav-item nav-link" href="{% url 'user:task' %}">Tasks</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other filters
+                    <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Completed</a></li>
+                <li><a href="#">Deleted</a></li>
+            </ul>
+        </li>
+        </ul>
+        <div class="rightAlign">
+            <form type="get" action="." style="margin: 0">
+                <input  id="search_box" type="text" name="search"  placeholder="{{SearchWord}}" align="right">
+                <button id="search_submit" type="submit" >Search</button>
+                <a href="#" class="btn btn-danger btn-sm"> Create Table </a>
+            </form>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block body %}
+<h1> Projects </h1>
+<div class="rightAlign">
+    <a href="{% url 'user:create_project' %}" class="btn btn-success"> Add Project </a>
+</div>
+    {% if query %}
+    <div class="row">
+              {% for item in query %}
+      <div class="col-sm-4">
+        <div class="card text-center" style="width: 20rem;">
+          <div class="card-block">
+            <h3 class="card-title">{{item.Project_name}}</h3>
+            <p class="card-text"> {{item.Description}} <br> 12/30 tasks incomplete </p>
+            <a href="{% url 'user:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
+            <a href="{% url 'user:update_project' item.id %}" style="color: red"> edit </a>
+            <a href="{% url 'user:delete_project' item.id %}" style="color: red"> delete </a>
+          </div>
+        </div>
+      </div>
+            {% endfor %}
+            {% else %}
+            <h3 align="center"> Bummer. You don't have any projects started. <br>
+                Get started by clicking the add project button to the right. </h3>
+            {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django import forms
+
+class Project(models.Model):
+    Project_name = models.CharField(max_length=255)
+    Description = models.CharField(max_length=255,blank=True)
+    CreateDate = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(User)
+    def __str__(self):
+        return self.Project_name
+
+class Task(models.Model):
+    status_choices = (
+        ('NS','Not Started'),
+        ('IP','In Progress'),
+        ('OH','On Hold'),
+        ('CO','Complete'),
+    )
+    Task_Name = models.CharField(max_length=255)
+    user = models.ForeignKey(User)
+    Project = models.ForeignKey(Project)
+    Category = models.CharField(max_length=255, blank=True )
+    Short_list = models.BooleanField(default=False, blank=True)
+    Status = models.CharField(max_length=2, choices = status_choices)
+    Start_Date = models.DateField(auto_now_add=True)
+    Modified_Date = models.DateField(auto_now=True)
+    Goal_Date = models.DateField(blank=True, null=True)
+    Notes = models.TextField(blank=True)
+    isDeleted = models.BooleanField(default=False, blank=True)
+    Complete_Date = models.DateField(blank=True, null=True)

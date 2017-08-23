@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container" style="text-align: center">
+    <h1> Welcome to HQ</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a href="{% url 'user:reset_password' %}" class="btn btn-default">Reset Password</a> <br>
+        <p> Don't have an account? Sign up <a href="{% url 'user:signup' %}">here</a></p>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> Project </h1>
+<p> Delete Project </p>
+<div class="table-responsive" align="center">
+    <form method = "post">
+        {% csrf_token %}
+        <p> Are you sure you want to delete "{{ object.Project_name }}"? </p>
+        <input type ="submit" value="Submit"/>
+    </form>
+</div>
+{% endblock %}

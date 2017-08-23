@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> Task </h1>
+<p> Delete Task </p>
+<div class="table-responsive" align="center">
+    <form method = "post">
+        {% csrf_token %}
+        <p> Are you sure you want to delete "{{ object.Task_Name }}"? </p>
+        <input type ="submit" value="Submit"/>
+    </form>
+</div>
+{% endblock %}

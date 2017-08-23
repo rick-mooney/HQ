@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="hero-image-container">
+    <div class="container container-hero">
+        <h1>Get more done with list management</h1>
+        <p>Organize your mind</p>
+        <a class="btn btn-primary btn-sm" href="{% url 'user:login' %}">Login</a>
+    </div>
+  <div class=reg_form id="signup_form">
+      <h4> Sign up </h4>
+      <div class="form_body">
+          <form action="{% url 'user:signup' %}" method="POST" id="deep">
+              <div class="form-group">
+                  <input placeholder="First Name" id="id_first_name" name="first_name"
+                  autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your first name.">
+              <div class="controls">
+                  <span class="error-block help-block">
+                  </span>
+              </div>
+              </div>
+              <div class="form-group">
+                  <input placeholder="Last Name" id="id_last_name" name="last_name"
+                  autocomplete="lname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your last name.">
+              <div class="controls">
+                  <span class="error-block help-block">
+                  </span>
+              </div>
+              </div>
+              <div class="form-group">
+                  <input placeholder="Email" id="id_email" name="email"
+                  autocomplete="email" type="email" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your email address.">
+              <div class="controls">
+                  <span class="error-block help-block">
+                  </span>
+              </div>
+              </div>
+              <div class="form-group">
+                  <input placeholder="Username" id="id_username" name="username"
+                  autocomplete="username" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a username.">
+              <div class="controls">
+                  <span class="error-block help-block">
+                  </span>
+              </div>
+              </div>
+              <div class="form-group">
+                  <input placeholder="password" id="id_password1" name="password1"
+                  autocomplete="password1" type="password" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a password.">
+              <div class="controls">
+                  <span class="error-block help-block">
+                  </span>
+              </div>
+              </div>
+              <div class="form-group">
+                  <input placeholder="confirm password" id="id_password2" name="password2"
+                  autocomplete="password2" type="password" data-parsley-trigger="submit" required data-parsely-error-message="Please confirm password.">
+              <div class="controls">
+                  <span class="error-block help-block">
+                  </span>
+              </div>
+              </div>
+          </form>
+          </div>
+      </div>
+     </div>
+<div class="container">
+  <div class="row">
+    <div class="jumbotron">
+      <h3>Focus on your tasks by due date or project</h3>
+      <p> Lists are great but it's difficult to organize what needs to happen
+          when. You often need to create a separate to-do list for each day or
+          week. The process to organize takes up valuable time you should be
+          spending on your tasks.  HQ handles this organization for you and
+          saves you time. </p>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="jumbotron">
+      <h3>Track performace by project</h3>
+      <p> What's the status of that project? HQ gives you analytics without
+          having to spend precious time calculating completion percentages
+          and gives you a sense of whether you are running ahead or behind
+          schedule.</p>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="jumbotron">
+      <h3>Be apart of the development</h3>
+      <p> Got a cool idea you'd like to see implemented? Be apart of our
+          development team and see your ideas come to life. Check out our
+          <a href="{% url 'user:contact' %}"> contact page </a> </p>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
