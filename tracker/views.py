@@ -103,7 +103,7 @@ class CreateProject(TemplateView):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect('user:project')
+            return redirect('tracker:project')
 
         args = {'form':form}
         return render(request, self.template_name, args)
@@ -111,13 +111,13 @@ class CreateProject(TemplateView):
 
 class ProjectDelete(DeleteView):
     model = Project
-    success_url = reverse_lazy('user:project')
+    success_url = reverse_lazy('tracker:project')
 
 
 class ProjectEdit(UpdateView):
     model = Project
     fields = '__all__'
-    success_url = reverse_lazy('user:project')
+    success_url = reverse_lazy('tracker:project')
 
 
 class ProjectListView(TemplateView):
@@ -161,12 +161,12 @@ class CreateTaskView(TemplateView):
 
 class TaskDelete(DeleteView):
     model = Task
-    success_url = reverse_lazy('user:project')
+    success_url = reverse_lazy('tracker:project')
 
 class TaskEdit(UpdateView):
     model = Task
     fields = '__all__'
-    success_url = reverse_lazy('user:project')
+    success_url = reverse_lazy('tracker:project')
 
 def export_tasks_csv(request):
     user = request.user
