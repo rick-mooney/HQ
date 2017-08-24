@@ -48,9 +48,9 @@
           <div class="card-block">
             <h3 class="card-title">{{item.Project_name}}</h3>
             <p class="card-text"> {{item.Description}} <br> 12/30 tasks incomplete </p>
-            <a href="{% url 'user:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
-            <a href="{% url 'user:update_project' item.id %}" style="color: red"> edit </a>
-            <a href="{% url 'user:delete_project' item.id %}" style="color: red"> delete </a>
+            <a href="{% url 'tracker:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
+            <a href="{% url 'tracker:update_project' item.id %}" style="color: red"> edit </a>
+            <a href="{% url 'tracker:delete_project' item.id %}" style="color: red"> delete </a>
           </div>
         </div>
       </div>
