@@ -153,7 +153,7 @@ class CreateTaskView(TemplateView):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect('user:task')
+            return redirect('tracker:task')
 
         args = {'form':form}
         return render(request, self.template_name, args)
