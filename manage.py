@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #!/usr/bin/env python
 import os
 import sys
@@ -44,4 +44,3 @@ if __name__ == "__main__":
             )
         raise
     execute_from_command_line(sys.argv)
->>>>>>> 37733baee42c3a34f2774393844440cb8e94fbb0
