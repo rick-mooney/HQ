@@ -18,8 +18,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='/user/home')),
     url(r'^user/', include('user.urls', namespace='user')),
     url(r'^tracker/', include('tracker.urls', namespace='tracker')),
     url(r'^admin/', include(admin.site.urls)),
