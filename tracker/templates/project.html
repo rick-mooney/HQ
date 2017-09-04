@@ -21,8 +21,9 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other filters
                     <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="#">Completed</a></li>
-                <li><a href="#">Deleted</a></li>
+                <li><a class="nav-item nav-link" href="/tracker/task/?search=short_list_tasks">Short List</a></li>
+                <li><a class="nav-item nav-link" href="/tracker/task/?search=Completed_tasks">Completed</a></li>
+                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=Deleted_tasks">Deleted</a></li>
             </ul>
         </li>
         </ul>
@@ -47,7 +48,7 @@
         <div class="card text-center" style="width: 20rem;">
           <div class="card-block">
             <h3 class="card-title">{{item.Project_name}}</h3>
-            <p class="card-text"> {{item.Description}} <br> 12/30 tasks incomplete </p>
+            <p class="card-text"> {{item.Description}} <br> <!-- 12/30 tasks incomplete --> </p>
             <a href="{% url 'tracker:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
             <a href="{% url 'tracker:update_project' item.id %}" style="color: red"> edit </a>
             <a href="{% url 'tracker:delete_project' item.id %}" style="color: red"> delete </a>

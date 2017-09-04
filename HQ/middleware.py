@@ -26,12 +26,12 @@ class LoginRequiredMiddleware:
 
         if path == reverse('user:logout').lstrip('/'):
             logout(request)
-        # 
-        # if request.user.is_authenticated() and url_is_exempt:
-        #     return redirect(settings.LOGIN_REDIRECT_URL)
-        #
-        # elif request.user.is_authenticated() or url_is_exempt:
-        #     return None
-        #
-        # else:
-        #     return redirect(settings.LOGIN_URL)
+        
+        if request.user.is_authenticated() and url_is_exempt:
+            return None
+
+        elif request.user.is_authenticated() or url_is_exempt:
+            return None
+
+        else:
+            return redirect(settings.LOGIN_URL)
