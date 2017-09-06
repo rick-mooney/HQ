@@ -40,7 +40,7 @@
 {% block body %}
 <h1> Tasks </h1>
 <div class="rightAlign">
-    <a href="{% url 'tracker:create_task' %}" class="btn btn-success"> Add Task </a> <br>
+    <a href="/tracker/task/create/?from={{ request.path|urlencode }}" class="btn btn-success"> Add Task </a> <br>
     <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a>
 </div>
 <div class="table-responsive" align="center">

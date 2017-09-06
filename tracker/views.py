@@ -144,7 +144,7 @@ class CreateTaskView(TemplateView):
     def get(self, request):
         user = request.user
         form = CreateTaskForm(user=user)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'from': request.GET.get('from',None)})
 
     def post(self, request):
         user=request.user
@@ -153,9 +153,13 @@ class CreateTaskView(TemplateView):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect('tracker:task')
+            next = request.GET.get('next', None)
+            if next:
+                return redirect(next)
+            else:
+                return redirect('tracker:task')
 
-        args = {'form':form}
+        args = {'form':form, 'from' : request.GET.get('from', None)}
         return render(request, self.template_name, args)
 
 
