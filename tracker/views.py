@@ -116,7 +116,7 @@ class ProjectDelete(DeleteView):
 
 class ProjectEdit(UpdateView):
     model = Project
-    fields = '__all__'
+    fields = ['Project_name','Description']
     success_url = reverse_lazy('tracker:project')
 
 
@@ -169,7 +169,7 @@ class TaskDelete(DeleteView):
 
 class TaskEdit(UpdateView):
     model = Task
-    fields = '__all__'
+    fields = ['Category','Task_Name','Goal_Date','Status','Notes','Short_list']
     success_url = reverse_lazy('tracker:project')
 
 def export_tasks_csv(request):
