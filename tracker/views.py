@@ -17,8 +17,8 @@ class TaskView(TemplateView):
     template_name = 'task.html'
 
     def get(self, request):
-        search_query = request.GET.get('search', None)
         user=request.user
+        search_query = request.GET.get('search', None)
 
         if search_query == 'Completed_tasks':
             query = Task.objects.all().filter(Status="CO", user=user).order_by('Goal_Date')
@@ -67,9 +67,11 @@ class TaskView(TemplateView):
             return render(request, self.template_name, args)
 
     def post(self, request):
+        user=request.user
         search_query = request.GET.get('search', None)
-        query = Task.objects.all().filter(Task_Name__icontains=search_query).order_by('Goal_Date').exclude(Status="CO")
-        args = {'query': query, 'SearchWord':search_query}
+        query = (Task.objects.all().filter(Task_Name__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date')) \
+        | (Task.objects.all().filter(Notes__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))
+        args = {'query': query,'SearchWord':search_query}
         return render(request, self.template_name, args)
 
 class ProjectView(TemplateView):
