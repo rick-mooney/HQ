@@ -168,18 +168,18 @@ class CreateTaskView(TemplateView):
 class TaskDelete(DeleteView):
     model = Task
     success_url = reverse_lazy('tracker:project')
-
-    def post(self, request, **kwargs):
-        next = request.POST.get('next','/')
-        return HttpResponseRedirect(next)
+    #
+    # def post(self, request, **kwargs):
+    #     next = request.POST.get('next','/')
+    #     return HttpResponseRedirect(next)
 
 class TaskEdit(UpdateView):
     model = Task
     fields = ['Category','Task_Name','Goal_Date','Status','Notes','Short_list']
-
-    def post(self, request, **kwargs):
-        next = request.POST.get('next','/')
-        return HttpResponseRedirect(next)
+    success_url = reverse_lazy('tracker:task')
+    # def post(self, request, **kwargs):
+    #     next = request.POST.get('next','/')
+    #     return HttpResponseRedirect(next)
 
 def export_tasks_csv(request):
     user = request.user
