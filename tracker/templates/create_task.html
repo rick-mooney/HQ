@@ -2,13 +2,12 @@
 
 {% block body %}
 <h1> Task </h1>
-<p> {{objects.get.Project_name}}
+<p> {{objects.get.Project.Project_name}}
 <p>Create a new task </p>
-<form method = "post">
+<form method = "post" action="{% if from %}?next={{ from }}{% endif %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
     <button type="submit" class="btn btn-default"> Submit </button>
 </form>
-
 {% endblock %}

@@ -10,7 +10,7 @@ import csv
 from datetime import datetime, timedelta, time
 
 from tracker.models import Task, Project
-from tracker.forms import (CreateTaskForm, CreateProjectForm)
+from tracker.forms import (CreateTaskForm, CreateProjectForm, EditTaskForm)
 
 
 class TaskView(TemplateView):
@@ -141,7 +141,7 @@ class ProjectListView(TemplateView):
 
 
 class CreateTaskView(TemplateView):
-    template_name = 'edit_task.html'
+    template_name = 'create_task.html'
 
     def get(self, request):
         user = request.user
@@ -155,7 +155,7 @@ class CreateTaskView(TemplateView):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            next = request.GET.get('next', None)
+            next = request.POST.get('next','/')
             if next:
                 return redirect(next)
             else:
@@ -167,19 +167,32 @@ class CreateTaskView(TemplateView):
 
 class TaskDelete(DeleteView):
     model = Task
-    success_url = reverse_lazy('tracker:project')
-    #
+    success_url = reverse_lazy('tracker:task')
+
     # def post(self, request, **kwargs):
     #     next = request.POST.get('next','/')
     #     return HttpResponseRedirect(next)
 
-class TaskEdit(UpdateView):
-    model = Task
-    fields = ['Category','Task_Name','Goal_Date','Status','Notes','Short_list']
-    success_url = reverse_lazy('tracker:task')
-    # def post(self, request, **kwargs):
-    #     next = request.POST.get('next','/')
-    #     return HttpResponseRedirect(next)
+class TaskEdit(TemplateView):
+    template_name = 'edit_task.html'
+
+    def get(self, request, **kwargs):
+        user = request.user
+        task_id = self.kwargs['pk']
+        query = Task.objects.get(id=task_id, user=user)
+        form = EditTaskForm(user=user,instance=query)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, **kwargs):
+        user = request.user
+        task_id = self.kwargs['pk']
+        query = Task.objects.get(id=task_id,user=user)
+        form = EditTaskForm(user, request.POST, instance=query)
+        post = form.save(commit=False)
+        post.user = request.user
+        post.save()
+        next = request.POST.get('next','/')
+        return HttpResponseRedirect(next)
 
 def export_tasks_csv(request):
     user = request.user

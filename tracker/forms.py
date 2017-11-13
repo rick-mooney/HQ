@@ -37,3 +37,16 @@ class CreateTaskForm(forms.ModelForm):
        super(CreateTaskForm, self).__init__(*args, **kwargs)
        self.fields['Project'] = forms.ModelChoiceField(
        queryset=Project.objects.filter(user = user))
+
+class EditTaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        exclude = [
+        'isDeleted',
+        'user'
+        ]
+    def __init__(self, user, *args, **kwargs):
+       super(EditTaskForm, self).__init__(*args, **kwargs)
+       self.fields['Project'] = forms.ModelChoiceField(
+       queryset=Project.objects.filter(user = user))
