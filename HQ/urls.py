@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/user/home')),
     url(r'^user/', include('user.urls', namespace='user')),
     url(r'^tracker/', include('tracker.urls', namespace='tracker')),
+    url(r'^JQ/', include('JQ.urls', namespace='JQ')),
     url(r'^admin/', include(admin.site.urls)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

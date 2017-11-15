@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'HQ',
     'user',
     'tracker',
+    'JQ'
 ]
 
 MIDDLEWARE = [
