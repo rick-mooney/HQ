@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> Applications </h1>
+    <div align="right">
+        <a href="{% url 'JQ:create_company' %}" class="btn btn-primary"> Add Company </a>
+    </div>
+    <div class="table-responsive" align="center">
+        <table class="table-hover" width="75%">
+            <tr>
+                <th> Name </th>
+                <th> Location </th>
+                <th> Industry </th>
+            </tr>
+            {% for item in query %}
+            <tr>
+                <td> {{ item.name }} </td>
+                <td> {{ item.location }} </td>
+                <td> {{ item.industry }} </td>
+                <td> <a href="{% url 'JQ:delete_company' item.id %}"> Delete </a> </td>
+                <td> <a href="{% url 'JQ:edit_company' item.id %}"> Edit </a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

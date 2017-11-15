@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> Company </h1>
+<p>Create a new Company </p>
+<p>If your company is already entered, click <a href="{% url 'JQ:create_app' %}">here</a></p>
+<form method = "post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-default"> Create </button>
+</form>
+
+{% endblock %}

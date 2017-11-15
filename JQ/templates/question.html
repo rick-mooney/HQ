@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> Questions </h1>
+    <div class="table-responsive" align="center">
+        <form method="POST">
+            {% csrf_token %}
+            <table class="table-hover" width="75%">
+                <tr>
+                    <th> Category </th>
+                    <th> Question </th>
+                    <th><input type='submit' class="btn btn-success" value='Add Selected'></th>
+                    <th> <a href="{% url 'JQ:create_question' %}" class="btn btn-primary"> Create Question</a></th>
+                    <input type="hidden" name="app" value="{{ request.META.HTTP_REFERER }}">
+                </tr>
+                {% for item in query %}
+                <tr>
+                    <td> {{ item.category }} </td>
+                    <td> {{ item.question }} </td>
+                    <td> <input type="checkbox" name="selected_q" value="{{ item.id }}"></td>
+                    <td> <a href="{% url 'JQ:delete_question' item.id %}"> Delete </a> </td>
+                    <td> <a href="{% url 'JQ:edit_question' item.id %}"> Edit </a> </td>
+                </tr>
+
+            {% endfor %}
+            <!-- {% if form.errors %} -->
+    <!-- {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %} -->
+        </table>
+        </form>
+    </div>
+{% endblock %}

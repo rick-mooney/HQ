@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> Applications </h1>
+    <div align="right">
+        <a href="{% url 'JQ:create_company' %}" class="btn btn-success"> Add Job </a>
+        <th> <a href="{% url 'JQ:create_question' %}" class="btn btn-success"> Add Question</a></th>
+    </div>
+    <div class="table-responsive" align="center">
+        <table class="table-hover" width="75%">
+            <tr>
+                <th> Status </th>
+                <th> Position </th>
+                <th> Company </th>
+                <th> Applied Date </th>
+            </tr>
+            {% if query %}
+            {% for item in query %}
+            <tr>
+                <td> {{ item.get_app_status_display }} </td>
+                <td> <a href="{% url 'JQ:dashboard_detail' item.id %}">{{ item.position }} </a> </td>
+                <td> <a href="{% url 'JQ:edit_company' item.company.id %}">{{ item.company }} </a> </td>
+                <td> {{ item.applied_date }} </td>
+                <td> <a href="{% url 'JQ:delete_app' item.id %}"> Delete </a> </td>
+                <td> <a href="{% url 'JQ:edit_app' item.id %}"> Edit </a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h3 align="center"> Bummer. You don't have any apps started. <br>
+            Get started by clicking the Add App button to the right. </h3>
+        {% endif %}
+    </div>
+{% endblock %}

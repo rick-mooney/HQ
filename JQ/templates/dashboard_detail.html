@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block body %}
+<div>
+    <a href="{% url 'JQ:apps' %}"> Back to Apps </a>
+<div class="rightAlign">
+    <p><strong>Contact:</strong></p>
+    {% for contact in Contact %}
+        <ul id="Contact-info" class="list-unstyled">
+            <li> Name: <a href="{% url 'JQ:edit_contact' contact.id %}">{{contact.name}} </a> </li>
+            <li> Email: {{contact.email}} </li>
+            <li> Phone: {{contact.phone}} </li>
+        </ul>
+    {% endfor %}
+    <a href="{% url 'JQ:create_contact' %}" class="btn btn-success btn-sm"> Add Contact </a>
+</div>
+    <div class="header-container" style="text-align:center;">
+        {% for application in Application %}
+            <h2> {{application.position}} @ {{application.company.name}} </h2>
+            <p> <strong> Applied: </strong>{{application.applied_date}}</p>
+        {% endfor %}
+
+            <!-- <div class="rightAlign">
+                <p><strong>Contact:</strong></p>
+                {% for contact in Contact %}
+                    <ul id="Contact-info" class="list-unstyled">
+                        <li> Name: <a href="{% url 'JQ:edit_contact' contact.id %}">{{contact.name}} </a></li>
+                        <li> Email: {{contact.email}} </li>
+                        <li> Phone: {{contact.phone}} </li>
+                    </ul>
+                {% endfor %}
+                <a href="{% url 'JQ:create_contact' %}" class="btn btn-success btn-sm"> Add Contact </a>
+            </div> -->
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card text-center" style="width:50rem;">
+          <div class="card-block">
+            <h3 class="card-title">Company Info</h3>
+            <p class="card-text">
+                {% for application in Application %}
+                    <ul id="Company-info" class="list-unstyled">
+                        <li>Company: <a href="{% url 'JQ:edit_company' application.company.id %}"> {{application.company.name}} </a></li>
+                        <li>Size: {{application.company.size}} </li>
+                        <li>Location: {{application.company.location}} </li>
+                        <li>CEO: {{application.company.ceo}} </li>
+                        <li>Notes: {{application.company.other_notes}} </li>
+                        <a href="{% url 'JQ:edit_company' application.company.id %}" class="btn btn-success"> Edit</a> <br><br>
+                    </ul>
+                {% endfor %}
+            </p>
+            <div class="card-block">
+              <h3 class="card-title">Resources</h3>
+              <p class="card-text">
+                  {% for resource in Resources %}
+                      <ul id="Resource-info" class="list-unstyled">
+                          <li><a href="{% url 'JQ:edit_resource' resource.id %}">{{resource.get_resource_type_display}}</a>: <a href="{{resource.resource}}">{{resource.resource}}</a></li>
+                      </ul>
+                  {% endfor %}
+              </p>
+              <a href="{% url 'JQ:create_resource' %}" class="btn btn-success"> Add</a> <br>
+            </div>
+          </div>
+      </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card text-center" style="width: 50rem;">
+            <div class="card-block">
+              <h3 class="card-title">Questions</h3>
+              <p class="card-text">
+                  {% for question in Ask %}
+                      <ul id="Question-info" class="list-unstyled">
+                          <li> {{question.question.question}} </a></li>
+                      </ul>
+                  {% endfor %}
+              </p>
+              <a href="{% url 'JQ:questions' %}" class="btn btn-success"> Add</a> <br>
+            </div>
+        </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card text-center" style="width: 50rem;">
+              <div class="card-block">
+                <h3 class="card-title">Notes</h3>
+                <p class="card-text">
+                    {% for note in Notes %}
+                        <ul id="Note-info" class="list-unstyled">
+                            <li>{{note.note_date}}</li>
+                            <li><a href="{% url 'JQ:edit_note' note.id %}"> {{note.note}} </a></li>
+                        </ul>
+                    {% endfor %}
+                </p>
+                <a href="{% url 'JQ:create_note' %}" class="btn btn-success"> Add</a> <br>
+              </div>
+          </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card text-center" style="width: 20rem;">
+                <!-- <div class="card-block">
+                  <h3 class="card-title">Resources</h3>
+                  <p class="card-text">
+                      {% for resource in Resources %}
+                          <ul id="Resource-info" class="list-unstyled">
+                              <li><a href="{% url 'JQ:edit_resource' resource.id %}">{{resource.get_resource_type_display}}</a>: <a href="{{resource.resource}}">{{resource.resource}}</a></li>
+                          </ul>
+                      {% endfor %}
+                  </p>
+                  <a href="{% url 'JQ:create_resource' %}" class="btn btn-success"> Add</a> <br>
+                </div> -->
+            </div>
+              </div>
+
+    </div>
+
+{% endblock %}
