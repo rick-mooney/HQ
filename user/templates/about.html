@@ -9,7 +9,7 @@
        myself track all my projects and crush goals. Sick of looking at
        excel sheets and having lists scattered in different areas, I needed
        something to manage these lists for me without wasting my own time
-       just getting organized. With varying interests, I needed a tool to
+       just getting organized. With varying interests, I wanted a tool to
        help me focus on the right things at the right time in order
        to acheive all my goals.
     </p>
@@ -17,15 +17,11 @@
 <div class="container">
     <h2> What does HQ run on? </h2>
     <p> HQ is written in python on a web framework called Django. The backend
-        is a MySQL database. I am a self-learner without any programming background
-        and built this from watching youtube videos and reading online documentation.
-        This would not be possible without the help of many users on stack overflow
-        and the excellent documentation from the Django team. </p>
+        is a Postgres database.</p>
 </div>
 <div class="container">
     <h2> What's the product road map? </h2>
-    <p> Getting feedback from a small user group first, but I'll make improvements
-         in small batches over time. I use HQ to track the project list and
-         I am working on making this public right now. </a> </p>
+    <p> Check out the current project list <a href="{% url 'user:contact' %}">here</a>.
+    I'm always interested in hearing new ideas to help me expand my skill set.  </p>
 </div>
 {% endblock %}

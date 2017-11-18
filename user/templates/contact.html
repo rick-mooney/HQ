@@ -37,6 +37,7 @@
         <table class="table-hover" width="75%">
             <tr>
                 <th> Task Name </th>
+                <th> Detail </th>
                 <th> Category </th>
                 <th> Goal Date </th>
                 <th> Status </th>
@@ -45,6 +46,7 @@
             {% for item in query %}
             <tr>
                 <td> {{ item.Task_Name }} </td>
+                <td> {{ item.Notes}} </td>
                 <td> {{ item.Category }} </td>
                 <td> {{ item.Goal_Date }} </td>
                 <td> {{ item.get_Status_display }} </td>
