@@ -14,7 +14,8 @@ class AppView(TemplateView):
     template_name = 'app.html'
 
     def get(self, request):
-        query = Application.objects.all().exclude(app_status="CO").order_by('applied_date')
+        user = request.user
+        query = Application.objects.all().exclude(app_status ="CO").filter(user=user).order_by('applied_date')
         args = {'query': query}
         return render(request, self.template_name, args)
 
@@ -25,13 +26,12 @@ class CreateApp(TemplateView):
     template_name = 'create_application.html'
 
     def get(self, request):
-        user = request.user
-        form = CreateApplication(user=user)
+        form = CreateApplication()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         user=request.user
-        form = CreateApplication(user, request.POST)
+        form = CreateApplication(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
@@ -82,7 +82,7 @@ class DeleteCompany(DeleteView):
 
 class EditCompany(UpdateView):
     model = Company
-    fields = '__all__'
+    form_class = CreateCompany
     success_url = reverse_lazy('JQ:company')
 
 class DashboardView(ListView):
@@ -132,7 +132,7 @@ class DeleteContact(DeleteView):
 
 class EditContact(UpdateView):
     model = Contact
-    fields = '__all__'
+    form_class = CreateContact
     success_url = reverse_lazy('JQ:apps')
 
 class AddNote(TemplateView):
@@ -163,7 +163,7 @@ class DeleteNote(DeleteView):
 
 class EditNote(UpdateView):
     model = Notes
-    fields = '__all__'
+    form_class = CreateNote
     success_url = reverse_lazy('JQ:apps')
 
 class AddResource(TemplateView):
@@ -194,7 +194,7 @@ class DeleteResource(DeleteView):
 
 class EditResource(UpdateView):
     model = Resources
-    fields = '__all__'
+    form_class = CreateResource
     success_url = reverse_lazy('JQ:apps')
 
 class AddQuestion(TemplateView):
@@ -221,7 +221,7 @@ class DeleteQuestion(DeleteView):
 
 class EditQuestion(UpdateView):
     model = Questions
-    fields = '__all__'
+    form_class = CreateQuestion
     success_url = reverse_lazy('JQ:apps')
 
 class QuestionView(TemplateView):

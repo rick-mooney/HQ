@@ -17,17 +17,10 @@ class CreateApplication(forms.ModelForm):
 
     class Meta:
         model = Application
-        exclude = {'user','isDeleted','Company'}
+        exclude = {'user','isDeleted'}
         widgets = {
             'applied_date':DateInput(),
         }
-
-    def __init__(self, user, *args, **kwargs):
-       super(CreateApplication, self).__init__(*args, **kwargs)
-       self.fields['Company'] = forms.ModelChoiceField(
-       queryset=Company.objects.filter(user = user))
-
-
 
 class CreateResource(forms.ModelForm):
 
