@@ -44,8 +44,11 @@ class EditTaskForm(forms.ModelForm):
         model = Task
         exclude = [
         'isDeleted',
-        'user'
+        'user','Complete_Date'
         ]
+        widgets = {
+            'Goal_Date':DateInput(),
+        }
     def __init__(self, user, *args, **kwargs):
        super(EditTaskForm, self).__init__(*args, **kwargs)
        self.fields['Project'] = forms.ModelChoiceField(

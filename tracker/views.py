@@ -36,7 +36,7 @@ class TaskView(TemplateView):
             return render(request, self.template_name, args)
 
         elif search_query == 'Overdue_tasks':
-            query = Task.objects.all().filter(Goal_Date__lt=datetime.now().date(), user=user).exclude(Status="CO").order_by('Project')
+            query = Task.objects.all().filter(Goal_Date__lt=datetime.now().date(), user=user).exclude(Status="CO").order_by('Goal_Date')
             args = {'query': query,'SearchWord':search_query}
             return render(request, self.template_name, args)
 
@@ -57,7 +57,8 @@ class TaskView(TemplateView):
 
         elif search_query != None:
             query = (Task.objects.all().filter(Task_Name__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date')) \
-            | (Task.objects.all().filter(Notes__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))
+            | (Task.objects.all().filter(Notes__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date')) \
+            | (Task.objects.all().filter(Category__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))
             args = {'query': query,'SearchWord':search_query}
             return render(request, self.template_name, args)
 
@@ -76,17 +77,9 @@ class TaskView(TemplateView):
 
 class ProjectView(TemplateView):
     template_name = 'project.html'
-    #user = TemplateView.request.user
 
     def get(self, request):
         user = request.user
-        # search_query = request.GET.get('search', None)
-        # if search_query != None:
-        #     query = Project.objects.all().filter(Project_Name__icontains=search_query)
-        #
-        #     args = {'query': query,'SearchWord':search_query}
-        #     return render(request, self.template_name, args)
-        # else:
         query = Project.objects.all().filter(user=user)
         args = {'query': query}
         return render(request, self.template_name, args)
@@ -169,10 +162,6 @@ class TaskDelete(DeleteView):
     model = Task
     success_url = reverse_lazy('tracker:task')
 
-    # def post(self, request, **kwargs):
-    #     next = request.POST.get('next','/')
-    #     return HttpResponseRedirect(next)
-
 class TaskEdit(TemplateView):
     template_name = 'edit_task.html'
 
@@ -189,7 +178,9 @@ class TaskEdit(TemplateView):
         query = Task.objects.get(id=task_id,user=user)
         form = EditTaskForm(user, request.POST, instance=query)
         post = form.save(commit=False)
-        post.user = request.user
+        if query.Status == 'CO':
+            post.Complete_Date = datetime.now().date()
+        post.user = user
         post.save()
         next = request.POST.get('next','/')
         return HttpResponseRedirect(next)

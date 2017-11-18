@@ -32,6 +32,27 @@
           </div>
         </div>
     </div>
+    <h3 style="text-align:center;"> Here are the current tasks I am working on for HQ: </h3>
+    <div class="table-responsive" align="center">
+        <table class="table-hover" width="75%">
+            <tr>
+                <th> Task Name </th>
+                <th> Category </th>
+                <th> Goal Date </th>
+                <th> Status </th>
+            </tr>
+            {% if query %}
+            {% for item in query %}
+            <tr>
+                <td> {{ item.Task_Name }} </td>
+                <td> {{ item.Category }} </td>
+                <td> {{ item.Goal_Date }} </td>
+                <td> {{ item.get_Status_display }} </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+    </div>
   </div>
 
 {% endblock %}

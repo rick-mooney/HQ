@@ -3,7 +3,7 @@
 } use if you want the fixed dropped down */
 
 .hero-image-container {
-    background-image: url('images/banner_wood_desk.jpg');
+    background-image: url('images/night.jpeg');
     background-repeat: no-repeat;
     width: 100%;
     height: 700px;
@@ -39,4 +39,8 @@ h1 {
     background-color: black;
     opacity: .7;
     color: white;
+}
+
+.form-group {
+    color:black;
 }

@@ -6,15 +6,29 @@ from django.contrib.auth import update_session_auth_hash
 
 from user.models import UserProfile
 from user.forms import (SignUpForm, EditUserForm, EditProfileForm)
+from tracker.models import Task
 
 def home(request):
+    if request.method == 'GET':
         return render(request, "home.html")
+    if request.method == 'POST':
+        newUser = User()
+        User.first_name = request.POST.get('id_first_name')
+        User.last_name = request.POST.get('id_last_name')
+        User.email = request.POST.get('id_email')
+        User.password1 = request.POST.get('id_password1')
+        User.password2 = request.POST.get('id_password2')
+        User.save()
+        return redirect('user:login')
 
 def about(request):
     return render(request, "about.html")
 
 def contact(request):
-    return render(request, "contact.html")
+    if request.method == 'GET':
+        query = Task.objects.all().filter(Project__Project_name = 'HQ').exclude(Status="CO").order_by('Goal_Date')
+        args = {'query': query}
+        return render(request, "contact.html", args)
 
 def signup(request):
     if request.method == "POST":
