@@ -39,11 +39,31 @@
 </nav>
 {% endblock %}
 {% block body %}
-<h1> Tasks </h1>
-<div class="rightAlign">
-    <a href="/tracker/task/create/?from={{ request.path|urlencode }}" class="btn btn-success"> Add Task </a> <br>
-    <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a>
+<h1> Tasks <a href="/tracker/task/create/?from={{ request.path|urlencode }}"> <img src="/static/css/images/plus.png" style="width:30px;height:30px;border:0;"> </a></h1>
+<div class=rightAlign>
+
+
 </div>
+{% if project %}
+    <div class=reg_form id="signup_form">
+        <h4>Quick Task</h4>
+        <div class="form_body">
+            <form method="POST" id="deep">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input placeholder="Task Name" id="id_task_name" name="task_name" autofocus
+                    autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a task name.">
+                    <button type="submit" class="btn btn-primary btn-sm">save</button>
+                    <div class="controls">
+                        <span class="error-block help-block">
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a><br>
+        </div>
+    </div>
+{% endif %}
 <div class="table-responsive" align="center">
     <table class="table-hover" width="75%">
         <tr>
@@ -55,12 +75,11 @@
         {% if query %}
         {% for item in query %}
         <tr>
-            <td> {{ item.Task_Name }} </td>
+            <td><a href="{% url 'tracker:update_task' item.id %}"> {{ item.Task_Name }} </td>
             <td> {{ item.Category }} </td>
             <td> {{ item.Goal_Date }} </td>
             <td> {{ item.get_Status_display }} </td>
-            <td> <a href="{% url 'tracker:delete_task' item.id %}"> Delete </a> </td>
-            <td> <a href="{% url 'tracker:update_task' item.id %}"> Edit </a> </td>
+            <td> <a href="{% url 'tracker:delete_task' item.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
         </tr>
         {% endfor %}
     </table>

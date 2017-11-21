@@ -122,14 +122,25 @@ class ProjectListView(TemplateView):
         user = request.user
         project = self.kwargs['pk']
         query = Task.objects.all().filter(Project=project, user=user).order_by('Goal_Date').exclude(Status="CO")
-        args = {'query': query}
+        args = {'query': query, 'project':project}
         return render(request, self.template_name, args)
 
     def post(self, request, **kwargs):
         user = request.user
-        project = self.kwargs['pk']
+        project_id = self.kwargs['pk']
+        project = Project.objects.get(pk=project_id)
+        new_task = request.POST.get('task_name')
+        if new_task != None:
+            post = Task()
+            post.user=user
+            post.Project=project
+            post.Task_Name = new_task
+            post.Goal_Date = datetime.now().date()
+            post.Status='NS'
+            post.Category='Quick Task'
+            post.save()
         query = Task.objects.all().filter(Project=project, user=user).order_by('Goal_Date').exclude(Status="CO")
-        args = {'query': query}
+        args = {'query': query, 'project':project}
         return render(request, self.template_name, args)
 
 
