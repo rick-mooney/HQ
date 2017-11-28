@@ -1,6 +1,26 @@
 /*.navbar {
     opacity: .8;
 } use if you want the fixed dropped down */
+@font-face{
+
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    /*display: flex;
+    flex-direction: column;*/
+}
+
+.top-title {
+
+}
+
+a {
+    text-decoration: none;
+}
 
 .hero-image-container {
     background-image: url('images/night.jpeg');
@@ -16,12 +36,8 @@
     color: white;
 }
 
-h1 {
-    display: inline-block;
-}
-
 .rightAlign {
-    float:right;
+    float: right;
 }
 
 .table-responsive {
@@ -32,7 +48,6 @@ h1 {
 }
 
 .reg_form {
-    display:block;
     float: right;
     padding: 15px;
     width:15%;
@@ -42,5 +57,21 @@ h1 {
 }
 
 .form-group {
+    float: right;
     color:black;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+
+    white-space: nowrap;
+    overflow-x: auto;
+    font-size: 10px;
+}
+
+.project-item {
+    width: 120px;
+    border: 1px solid rgb(100%, 100%, 100%, 0.8);
+    border: 1px solid rgba(100%, 100%, 100%, 0.8);
 }

@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^project/(?P<pk>\d+)$', views.ProjectListView.as_view() ,name='project_list'),
     url(r'^project/confirm_delete/(?P<pk>\d+)$', views.ProjectDelete.as_view(), name='delete_project'),
     url(r'^project/update/(?P<pk>\d+)$', views.ProjectEdit.as_view(), name='update_project'),
+    url(r'^project/member_delete/(?P<pk>\d+)$', views.DeleteProjectMember.as_view(), name='delete_member'),
      ]

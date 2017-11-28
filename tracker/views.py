@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 import csv
 from datetime import datetime, timedelta, time
 
-from tracker.models import Task, Project
+from tracker.models import Task, Project, ProjectMember
 from tracker.forms import (CreateTaskForm, CreateProjectForm, EditTaskForm)
 
 
@@ -81,9 +81,9 @@ class ProjectView(TemplateView):
     def get(self, request):
         user = request.user
         query = Project.objects.all().filter(user=user)
-        args = {'query': query}
+        shared_projects = ProjectMember.objects.all().filter(Member=user)
+        args = {'query': query, 'shared_projects':shared_projects}
         return render(request, self.template_name, args)
-
 
 class CreateProject(TemplateView):
     template_name = 'create_project.html'
@@ -120,29 +120,82 @@ class ProjectListView(TemplateView):
 
     def get(self, request, **kwargs):
         user = request.user
-        project = self.kwargs['pk']
-        query = Task.objects.all().filter(Project=project, user=user).order_by('Goal_Date').exclude(Status="CO")
-        args = {'query': query, 'project':project}
-        return render(request, self.template_name, args)
+        project_id = self.kwargs['pk']
+        project = Project.objects.all().filter(id=project_id)
+        team_members = ProjectMember.objects.all().filter(ProjectId=project).values('Member')
+        project_owners = ProjectMember.objects.all().filter(ProjectId=project).values('Owner')
+        owner_id = []
+        member_id = []
+        project_creator = project.values_list('user')[0][0]
+        if team_members != None:
+            for name in team_members:
+                name_id = name.get('Member')
+                member_id.append(name_id)
+        if project_owners != None:
+            for name in project_owners:
+                name_id = name.get('Owner')
+                owner_id.append(name_id)
+        if (user.id in owner_id) | (user.id in member_id) | (user.id == project_creator):
+            query = Task.objects.all().filter(Project=project, user=user).order_by('Goal_Date').exclude(Status="CO")
+            if (user.id in member_id) | (user.id in owner_id):
+                query = Task.objects.all().filter(Project=project).order_by('Goal_Date').exclude(Status="CO")
+            all_users = User.objects.all()
+            team = ProjectMember.objects.all().filter(ProjectId=project)
+            args = {'query': query, 'project':project, 'users':all_users, 'team':team}
+            return render(request, self.template_name, args)
+        else:
+            return redirect('tracker:project')
 
     def post(self, request, **kwargs):
         user = request.user
         project_id = self.kwargs['pk']
-        project = Project.objects.get(pk=project_id)
+        project_inst = Project.objects.get(pk=project_id)
+        project = Project.objects.all().filter(id=project_id)
         new_task = request.POST.get('task_name')
+        member_name = request.POST.get('member_name')
+        project_creator = project.values_list('user')[0][0]
+        owner_id = []
+        member_id = []
+        team_members = ProjectMember.objects.all().filter(ProjectId=project).values('Member')
+        project_owners = ProjectMember.objects.all().filter(ProjectId=project).values('Owner')
         if new_task != None:
             post = Task()
             post.user=user
-            post.Project=project
+            post.Project=project_inst
             post.Task_Name = new_task
             post.Goal_Date = datetime.now().date()
             post.Status='NS'
             post.Category='Quick Task'
             post.save()
-        query = Task.objects.all().filter(Project=project, user=user).order_by('Goal_Date').exclude(Status="CO")
-        args = {'query': query, 'project':project}
-        return render(request, self.template_name, args)
+        if member_name != None:
+            new_member = User.objects.get(username=member_name)
+            create_member = ProjectMember()
+            create_member.ProjectId = project_inst
+            create_member.Owner = user
+            create_member.Member = new_member
+            create_member.save()
+        if team_members != None:
+            for name in team_members:
+                name_id = name.get('Member')
+                member_id.append(name_id)
+        if project_owners != None:
+            for name in project_owners:
+                name_id = name.get('Owner')
+                owner_id.append(name_id)
+        if (user.id in owner_id) | (user.id in member_id) | (user.id == project_creator):
+            query = Task.objects.all().filter(Project=project, user=user).order_by('Goal_Date').exclude(Status="CO")
+            if (user.id in member_id) | (user.id in owner_id):
+                query = Task.objects.all().filter(Project=project).order_by('Goal_Date').exclude(Status="CO")
+            all_users = User.objects.all()
+            team = ProjectMember.objects.all().filter(ProjectId=project)
+            args = {'query': query, 'project':project, 'users':all_users, 'team':team}
+            return render(request, self.template_name, args)
+        else:
+            return redirect('tracker:project')
 
+class DeleteProjectMember(DeleteView):
+    model = ProjectMember
+    success_url = reverse_lazy('tracker:task')
 
 class CreateTaskView(TemplateView):
     template_name = 'create_task.html'
@@ -179,22 +232,49 @@ class TaskEdit(TemplateView):
     def get(self, request, **kwargs):
         user = request.user
         task_id = self.kwargs['pk']
-        query = Task.objects.get(id=task_id, user=user)
-        form = EditTaskForm(user=user,instance=query)
-        return render(request, self.template_name, {'form': form})
+        task_data = Task.objects.all().filter(id=task_id)
+        project_id = task_data.values_list('Project')[0][0]
+        task_owner = task_data.values_list('user')[0][0]
+        team_members = ProjectMember.objects.all().filter(ProjectId=project_id).values('Member')
+        owner_id = []
+        team_list = []
+        project_owners = ProjectMember.objects.all().filter(ProjectId=project_id).values('Owner')
+        if project_owners != None:
+            for name in project_owners:
+                name_id = name.get('Owner')
+                owner_id.append(name_id)
+        if team_members != None:
+            for name in team_members:
+                name_id = name.get('Member')
+                team_list.append(name_id)
+        if user.id == task_owner:
+            query = Task.objects.get(id=task_id, user=user)
+            form = EditTaskForm(instance=query)
+            return render(request, self.template_name, {'form': form})
+        elif (user.id in team_list) | (user.id in owner_id):
+            query = Task.objects.get(id=task_id)
+            form = EditTaskForm(instance=query)
+            return render(request, self.template_name, {'form': form})
+        else:
+            return redirect('tracker:project')
 
     def post(self, request, **kwargs):
         user = request.user
         task_id = self.kwargs['pk']
-        query = Task.objects.get(id=task_id,user=user)
-        form = EditTaskForm(user, request.POST, instance=query)
+        query = Task.objects.get(id=task_id)
+        task_data = Task.objects.all().filter(id=task_id)
+        project_id = task_data.values_list('Project')[0][0]
+        project = Project.objects.get(id=project_id)
+        form = EditTaskForm(request.POST, instance=query)
         post = form.save(commit=False)
-        if query.Status == 'CO':
-            post.Complete_Date = datetime.now().date()
         post.user = user
+        post.Project = project
+        if post.Status == 'CO':
+            post.Complete_Date = datetime.now().date()
         post.save()
         next = request.POST.get('next','/')
         return HttpResponseRedirect(next)
+
 
 def export_tasks_csv(request):
     user = request.user

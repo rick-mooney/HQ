@@ -12,6 +12,11 @@ class Project(models.Model):
     def __str__(self):
         return self.Project_name
 
+class ProjectMember(models.Model):
+    ProjectId = models.ForeignKey(Project)
+    Owner = models.ForeignKey(User, related_name='own')
+    Member = models.ForeignKey(User, related_name='mem', null=True)
+
 class Task(models.Model):
     status_choices = (
         ('NS','Not Started'),

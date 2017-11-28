@@ -39,31 +39,47 @@
 </nav>
 {% endblock %}
 {% block body %}
-<h1> Tasks <a href="/tracker/task/create/?from={{ request.path|urlencode }}"> <img src="/static/css/images/plus.png" style="width:30px;height:30px;border:0;"> </a></h1>
-<div class=rightAlign>
-
-
-</div>
-{% if project %}
-    <div class=reg_form id="signup_form">
-        <h4>Quick Task</h4>
-        <div class="form_body">
-            <form method="POST" id="deep">
-                {% csrf_token %}
-                <div class="form-group">
-                    <input placeholder="Task Name" id="id_task_name" name="task_name" autofocus
-                    autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a task name.">
-                    <button type="submit" class="btn btn-primary btn-sm">save</button>
-                    <div class="controls">
-                        <span class="error-block help-block">
-                        </span>
-                    </div>
+<ul><h1> Tasks <a href="/tracker/task/create/?from={{ request.path|urlencode }}"> <img src="/static/css/images/plus.png" style="width:30px;height:30px;border:0;"> </a></h1></ul>
+<div class="rightAlign">
+    <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a>
+    {% if project %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="#">
+                <input placeholder="Enter Quick Task" id="id_task_name" name="task_name" autofocus
+                autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a task name.">
+                <button type="submit" class="btn btn-primary btn-sm">save</button>
+                <div class="controls">
+                    <span class="error-block help-block">
+                    </span>
                 </div>
+            </div>
+        </form>
+        {% if not team or user == team.0.Owner %}
+        <div class="#">
+            <form method="POST">
+                {% csrf_token %}
+                <input list="users" placeholder="Add Member" name="member_name" id="id_member_name" data-parsley-trigger="submit">
+                <button type="submit" class="btn-sm btn-primary"> save</a></button>
+                <datalist id="users">
+                    {% for name in users %}
+                    <option value="{{name}}">
+                    {% endfor %}
+                </datalist>
             </form>
-            <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a><br>
         </div>
-    </div>
-{% endif %}
+        {% endif %}
+        <div class="#">
+            <h4> Project Team </h4>
+            <p> <strong>Owner</strong>: {{ team.0.Owner }} </P>
+            {% for member in team %}
+                {{ member.Member }}
+                <a href="{% url 'tracker:delete_member' member.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a>
+                <br><br>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
 <div class="table-responsive" align="center">
     <table class="table-hover" width="75%">
         <tr>
@@ -85,7 +101,7 @@
     </table>
     {% else %}
     <h3 align="center"> Looks like you don't have any tasks.  <br>
-        Make sure you add a <a href="{% url 'tracker:create_project' %}">project</a> first, then add tasks using the add task button. </h3>
+        Make sure you add a <a href="{% url 'tracker:create_project' %}">project</a> first, then add tasks using the plus sign. </h3>
     {% endif %}
 </div>
 {% endblock %}

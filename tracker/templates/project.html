@@ -38,28 +38,46 @@
 </nav>
 {% endblock %}
 {% block body %}
-<h1> Projects </h1>
-<div class="rightAlign">
-    <a href="{% url 'tracker:create_project' %}" class="btn btn-success"> Add Project </a>
-</div>
+<div>
+    <ul><h2 class="top-title"> Projects<a href="{% url 'tracker:create_project' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a></h2></ul>
     {% if query %}
-    <div class="row">
-              {% for item in query %}
-      <div class="col-sm-4">
-        <div class="card text-center" style="width: 20rem;">
-          <div class="card-block">
-            <h3 class="card-title">{{item.Project_name}}</h3>
-            <p class="card-text"> {{item.Description}} <br> <!-- 12/30 tasks incomplete --> </p>
-            <a href="{% url 'tracker:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
-            <a href="{% url 'tracker:update_project' item.id %}" style="color: red"> edit </a>
-            <a href="{% url 'tracker:delete_project' item.id %}" style="color: red"> delete </a>
+        <div class="row">
+                  {% for item in query %}
+          <div class="col-sm-4">
+            <div class="card text-center" style="width: 20rem;">
+              <div class="card-block">
+                <h4 class="card-title"><a href="{% url 'tracker:update_project' item.id %}">{{item.Project_name}}</a></h4>
+                <p class="card-text"> {{item.Description}} </p>
+                <a href="{% url 'tracker:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
+                <a href="{% url 'tracker:delete_project' item.id %}" style="color: red"> delete </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-            {% endfor %}
-            {% else %}
-            <h3 align="center"> Bummer. You don't have any projects started. <br>
-                Get started by clicking the add project button to the right. </h3>
-            {% endif %}
-  </div>
+                {% endfor %}
+    {% endif %}
+</div>
+<div>
+    <ul class="shared-project-list"><h3> Shared Projects </h3>
+        <table class="table-hover" width="20%">
+            <tr>
+                <th>Project</th>
+                <th>Owner</th>
+            </tr>
+                {% if shared_projects %}
+                    {% for project in shared_projects %}
+              <tr>
+                  <td><a href="{% url 'tracker:project_list' project.ProjectId.id %}">{{ project.ProjectId }} </a></td>
+                  <td>{{ project.Owner.username}}</td>
+              </tr>
+
+      {% endfor %}
+  {% endif %}
+        </table>
+  </ul>
+
+</div>
+</div>
+
+            <!-- <h3 align="center"> Bummer. You don't have any projects started. <br>
+                Get started by clicking the add project button to the left. </h3>  -->
 {% endblock %}
