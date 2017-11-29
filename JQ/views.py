@@ -32,7 +32,7 @@ class CreateApp(TemplateView):
 
     def post(self, request):
         user=request.user
-        form = CreateApplication(request.POST)
+        form = CreateApplication(user,request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
