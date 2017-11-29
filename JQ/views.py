@@ -26,7 +26,8 @@ class CreateApp(TemplateView):
     template_name = 'create_application.html'
 
     def get(self, request):
-        form = CreateApplication(user = request.user)
+        user=request.user
+        form = CreateApplication(user=user)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):

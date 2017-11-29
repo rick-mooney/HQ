@@ -21,10 +21,10 @@ class CreateApplication(forms.ModelForm):
         widgets = {
             'applied_date':DateInput(),
         }
-        def __init__(self, user, *args, **kwargs):
-           super(CreateApplication, self).__init__(*args, **kwargs)
-           self.fields['company'] = forms.ModelChoiceField(
-           queryset=Company.objects.filter(user = user))
+    def __init__(self, user, *args, **kwargs):
+       super(CreateApplication, self).__init__(*args, **kwargs)
+       self.fields['company'] = forms.ModelChoiceField(
+       queryset=Company.objects.filter(user=user))
 
 class CreateResource(forms.ModelForm):
 
