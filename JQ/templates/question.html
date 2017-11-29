@@ -5,7 +5,7 @@
     <div class="table-responsive" align="center">
         <form method="POST">
             {% csrf_token %}
-            <table class="table-hover" width="75%">
+            <table class="table-hover" width="50%">
                 <tr>
                     <th> Category </th>
                     <th> Question </th>
@@ -15,10 +15,9 @@
                 {% for item in query %}
                 <tr>
                     <td> {{ item.category }} </td>
-                    <td> {{ item.question }} </td>
+                    <td> <a href="{% url 'JQ:edit_question' item.id %}">{{ item.question }}</a> </td>
                     <td> <input type="checkbox" name="selected_q" value="{{ item.id }}"></td>
-                    <td> <a href="{% url 'JQ:delete_question' item.id %}"> Delete </a> </td>
-                    <td> <a href="{% url 'JQ:edit_question' item.id %}"> Edit </a> </td>
+                    <td> <a href="{% url 'JQ:delete_question' item.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
                 </tr>
 
             {% endfor %}
