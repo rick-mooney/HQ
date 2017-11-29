@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^question/create/$', views.AddQuestion.as_view(),name='create_question'),
     url(r'^question/edit/(?P<pk>\d+)$', views.EditQuestion.as_view() ,name='edit_question'),
     url(r'^question/delete/(?P<pk>\d+)$', views.DeleteQuestion.as_view() ,name='delete_question'),
+    url(r'^ask/delete/(?P<pk>\d+)$', views.DeleteAsk.as_view() ,name='delete_ask'),
 ]

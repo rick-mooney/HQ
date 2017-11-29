@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1> Applications </h1>
+<h1> Applications <a href="{% url 'JQ:create_company' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a><br></h1>
     <div align="right">
-        <a href="{% url 'JQ:create_company' %}" class="btn btn-success"> Add Job </a>
         <th> <a href="{% url 'JQ:create_question' %}" class="btn btn-success"> Add Question</a></th>
     </div>
     <div class="table-responsive" align="center">
@@ -28,7 +27,7 @@
         </table>
         {% else %}
         <h3 align="center"> Bummer. You don't have any apps started. <br>
-            Get started by clicking the Add App button to the right. </h3>
+            Get started by clicking the Add Job button to the right. </h3>
         {% endif %}
     </div>
 {% endblock %}

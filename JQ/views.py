@@ -26,7 +26,7 @@ class CreateApp(TemplateView):
     template_name = 'create_application.html'
 
     def get(self, request):
-        form = CreateApplication()
+        form = CreateApplication(user = request.user)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
@@ -85,11 +85,6 @@ class EditCompany(UpdateView):
     form_class = CreateCompany
     success_url = reverse_lazy('JQ:company')
 
-class DashboardView(ListView):
-    context_object_name = 'dashboard_detail'
-    template_name = 'dashboard_detail.html'
-    queryset = Application.objects.all()
-
 class DashboardView(TemplateView):
     template_name = 'dashboard_detail.html'
 
@@ -101,8 +96,19 @@ class DashboardView(TemplateView):
         context['Notes'] = Notes.objects.all().filter(App=app_id)
         context['Resources'] = Resources.objects.all().filter(App=app_id)
         context['Ask'] = Ask.objects.all().filter(app=app_id)
-
         return context
+
+    def post(self, request, **kwargs):
+        app_id = self.kwargs['pk']
+        return_url = request.POST.get('url')
+        new_answer = request.POST.get('response')
+        answer_id = request.POST.get('q_id')
+        if new_answer != None:
+            myAsk = Ask.objects.get(pk=int(answer_id))
+            myAsk.answer = new_answer
+            myAsk.save()
+        return HttpResponseRedirect(return_url)
+
 
 class AddContact(TemplateView):
     template_name = 'create_contact.html'
@@ -228,7 +234,8 @@ class QuestionView(TemplateView):
     template_name = 'question.html'
 
     def get(self, request):
-        query = Questions.objects.all().order_by('category')
+        user = request.user
+        query = Questions.objects.filter(user=user).order_by('category')
         args = {'query': query}
         return render(request, self.template_name, args)
 
@@ -246,3 +253,7 @@ class QuestionView(TemplateView):
             query = Questions.objects.all().order_by('category')
             args = {'query': query}
             return render(request, self.template_name, args)
+
+class DeleteAsk(DeleteView):
+    model = Ask
+    success_url = reverse_lazy('JQ:apps')

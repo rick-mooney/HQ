@@ -42,11 +42,15 @@ class Contact(models.Model):
 class Questions(models.Model):
     question = models.CharField(max_length=255)
     category = models.CharField(max_length=25)
+    user = models.ForeignKey(User)
     isDeleted = models.BooleanField(default=False, blank=True)
+    def __str__(self):
+        return self.question
 
 class Ask(models.Model): #joining table
     question = models.ForeignKey(Questions)
     app = models.ForeignKey(Application)
+    answer = models.TextField(blank=True)
     isDeleted = models.BooleanField(default=False, blank=True)
 
 class Notes(models.Model):

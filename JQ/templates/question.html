@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1> Questions </h1>
+<h1> Questions <a href="{% url 'JQ:create_question' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a><br> </h1>
     <div class="table-responsive" align="center">
         <form method="POST">
             {% csrf_token %}
@@ -9,8 +9,7 @@
                 <tr>
                     <th> Category </th>
                     <th> Question </th>
-                    <th><input type='submit' class="btn btn-success" value='Add Selected'></th>
-                    <th> <a href="{% url 'JQ:create_question' %}" class="btn btn-primary"> Create Question</a></th>
+                    <th><input type='submit' class="btn-sm btn-success" value='Add Selected'></th>
                     <input type="hidden" name="app" value="{{ request.META.HTTP_REFERER }}">
                 </tr>
                 {% for item in query %}

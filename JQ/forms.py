@@ -21,6 +21,10 @@ class CreateApplication(forms.ModelForm):
         widgets = {
             'applied_date':DateInput(),
         }
+        def __init__(self, user, *args, **kwargs):
+           super(CreateApplication, self).__init__(*args, **kwargs)
+           self.fields['company'] = forms.ModelChoiceField(
+           queryset=Company.objects.filter(user = user))
 
 class CreateResource(forms.ModelForm):
 
@@ -45,4 +49,4 @@ class CreateQuestion(forms.ModelForm):
 
     class Meta:
         model = Questions
-        exclude = {'isDeleted'}
+        exclude = {'isDeleted','user'}

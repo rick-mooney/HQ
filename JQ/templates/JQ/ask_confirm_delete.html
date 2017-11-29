@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> JQ </h1>
+<p> Delete Question From App </p>
+<div class="table-responsive" align="center">
+    <form method = "post">
+        {% csrf_token %}
+        <p> Are you sure you want to delete the question "{{ object.question }}" from Application for {{object.app}}? </p>
+        <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
+        <input type ="submit" value="Submit"/>
+    </form>
+</div>
+{% endblock %}
