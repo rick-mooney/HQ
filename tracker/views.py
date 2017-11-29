@@ -12,7 +12,6 @@ from datetime import datetime, timedelta, time
 from tracker.models import Task, Project, ProjectMember
 from tracker.forms import (CreateTaskForm, CreateProjectForm, EditTaskForm)
 
-
 class TaskView(TemplateView):
     template_name = 'task.html'
 

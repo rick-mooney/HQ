@@ -28,12 +28,27 @@
             <li><a class="nav-item nav-link" href="{% url 'JQ:apps' %}"> JQ</a></li>
         </li>
         </ul>
-        <div class="rightAlign">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            role="button" aria-expanded="false">Menu
+            <span class="caret"></span>
+          </a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="{% url 'user:home' %}">Home</a></li>
+        <li><a href="{% url 'tracker:task' %}">Tracker</a></li>
+        <li><a href="{% url 'tracker:project' %}">Projects</a></li>
+        <li><a href="{% url 'JQ:apps' %}">Job Queue</a></li>
+        <li class="divider"></li>
+        <li><a href="{% url 'user:logout' %}">Logout</a>
+        </li>
+      </ul>
+    </li>
+        <!-- <div class="rightAlign">
             <form type="get" action="." style="margin: 0">
                 <input  id="search_box" type="text" name="search"  placeholder="{{SearchWord}}" align="right">
                 <button id="search_submit" type="submit" >Search</button>
             </form>
-        </div>
+        </div> -->
     </div>
 </nav>
 {% endblock %}
