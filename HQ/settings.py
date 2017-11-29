@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os, dj_database_url, logging
 
-# logging.basicConfig(filename='test.log',level=logging.DEBUG)
-# logging.debug('running logs...')
+logging.basicConfig(filename='test.log',level=logging.DEBUG)
+logging.debug('running logs...')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +29,7 @@ SECRET_KEY = 'a)!((5zs3z$to9#!)x5s+p5!$#c6msc@0(#l3fuw@l=)&%0m%n'
 DEBUG = False
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-ALLOWED_HOSTS = ['127.0.0.1','mhq.herokuapp.com']
+ALLOWED_HOSTS = ['mhq.herokuapp.com']
 
 
 # Application definition
