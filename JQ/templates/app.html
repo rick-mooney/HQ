@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1> Applications <a href="{% url 'JQ:create_company' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a><br></h1>
-    <div align="right">
-        <th> <a href="{% url 'JQ:create_question' %}" class="btn btn-success"> Add Question</a></th>
-    </div>
+<div>
+    <ul><h1> Applications <a href="{% url 'JQ:create_company' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a><br></h1></ul>
+    <ul><a href="{% url 'JQ:create_question' %}" class="btn-sm btn-success"> Add Question</a>
+</div>
     <div class="table-responsive" align="center">
         <table class="table-hover" width="75%">
             <tr>
@@ -20,8 +20,9 @@
                 <td> <a href="{% url 'JQ:dashboard_detail' item.id %}">{{ item.position }} </a> </td>
                 <td> <a href="{% url 'JQ:edit_company' item.company.id %}">{{ item.company }} </a> </td>
                 <td> {{ item.applied_date }} </td>
-                <td> <a href="{% url 'JQ:delete_app' item.id %}"> Delete </a> </td>
-                <td> <a href="{% url 'JQ:edit_app' item.id %}"> Edit </a> </td>
+                <td><a href="{% url 'JQ:delete_app' item.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a>&nbsp; &nbsp;
+                    <a href="{% url 'JQ:edit_app' item.id %}"> <img src="/static/css/images/pencil-edit.png" style="width:15px;height:15px;border:0;"> </a>
+                </td>
             </tr>
             {% endfor %}
         </table>

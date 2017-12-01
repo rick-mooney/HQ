@@ -48,14 +48,15 @@ class DeleteApp(DeleteView):
 
 class EditApp(UpdateView):
     model = Application
-    fields = '__all__'
+    fields = {'position','app_status','applied_date'}
     success_url = reverse_lazy('JQ:apps')
 
 class CompanyView(TemplateView):
     template_name = 'company.html'
 
     def get(self, request):
-        query = Company.objects.all()
+        user = request.user
+        query = Company.objects.all().filter(user=user)
         args = {'query': query}
         return render(request, self.template_name, args)
 
