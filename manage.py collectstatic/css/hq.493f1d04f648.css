@@ -1,0 +1,77 @@
+/*.navbar {
+    opacity: .8;
+} use if you want the fixed dropped down */
+@font-face{
+
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    /*display: flex;
+    flex-direction: column;*/
+}
+
+.top-title {
+
+}
+
+a {
+    text-decoration: none;
+}
+
+.hero-image-container {
+    background-image: url("images/night.998507b565d6.jpeg");
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 700px;
+    color: black;
+    line-height: 90%;
+}
+
+.container-hero {
+    text-align: center;
+    color: white;
+}
+
+.rightAlign {
+    float: right;
+}
+
+.table-responsive {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 50px;
+    padding-left: 5px;
+}
+
+.reg_form {
+    float: right;
+    padding: 15px;
+    width:15%;
+    background-color: black;
+    opacity: .7;
+    color: white;
+}
+
+.form-group {
+    float: right;
+    color:black;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+
+    white-space: nowrap;
+    overflow-x: auto;
+    font-size: 10px;
+}
+
+.project-item {
+    width: 120px;
+    border: 1px solid rgb(100%, 100%, 100%, 0.8);
+    border: 1px solid rgba(100%, 100%, 100%, 0.8);
+}
