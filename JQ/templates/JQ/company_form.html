@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1> Company </h1>
-<p> Update {{ object.Project_name }} Company </p>
+<p> Update {{ object.name }} Company </p>
 <form method = "post">
     {% csrf_token %}
     {{ form.as_p }}
