@@ -3,59 +3,62 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> HQ Login </title>
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-        <link href="{% static 'css/hq.css' %}" rel="stylesheet" type="text/css">
-        <!-- <link rel="stylesheet" href="https://cdjns.clouldflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"> really slows down -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title> HQ </title>{% endblock %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/hq.css' %}" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="https://cdjns.clouldflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"> really slows down -->
   </head>
+
   {% block navbar %}
-  <body>
-      <nav class="navbar navbar-default"> <!--  add for fixed navbar navbar-fixed-top -->
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'user:home' %}">HQ</a>
-          </div>
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-left">
-                <li><a href="{% url 'user:about' %}">About</a></li>
-                <li><a href="{% url 'user:contact' %}">Contact</a></li>
-                <!-- <li><a href="#"> Donate</a></li> -->
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="{% url 'user:login'%}"> Login</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                  role="button" aria-expanded="false">Menu
-                  <span class="caret"></span>
-                </a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="{% url 'user:home' %}">Home</a></li>
-              <li><a href="{% url 'tracker:task' %}">Tracker</a></li>
-              <li><a href="{% url 'tracker:project' %}">Projects</a></li>
-              <li><a href="{% url 'JQ:apps' %}">Job Queue</a></li>
-              <li class="divider"></li>
-              <li><a href="{% url 'user:logout' %}">Logout</a>
-              </li>
-            </ul>
-          </li>
+ <nav class="navbar navbar-default"> <!--  add for fixed navbar navbar-fixed-top -->
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'tracker:project' %}">HQ</a>
+     </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-left">
+        <li><a class="nav-item nav-link" href="{% url 'tracker:project' %}">Projects</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tasks
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-item nav-link" href="/tracker/task/">All Tasks</a></li>
+                    <li><a class="nav-item nav-link" href="/tracker/task/?search=Overdue_tasks">Overdue</a></li>
+                    <li><a class="nav-item nav-link" href="/tracker/task/?search=short_list_tasks">Short List</a></li>
+                    <li><a class="nav-item nav-link" href="/tracker/task/?search=Today_tasks">Today</a></li>
+                    <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_week">This Week</a></li>
+                    <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_month">This Month</a></li>
+                    <li><a class="nav-item nav-link" href="/tracker/task/?search=Completed_tasks">Completed</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-item nav-link" href="{% url 'JQ:apps' %}"> JQ</a></li>
         </ul>
-      </div>
-    </div>
-  </nav>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'user:about' %}">About</a></li>
+            <li><a href="{% url 'user:contact' %}">Contact</a></li>
+            <li class="divider"></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'user:logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'user:login'%}"> Login</a></li>
+            {% endif %}
+        </ul>
+    </ul>
+</div>
+</div>
+</nav>
 {% endblock %}
 {% block body %}
 {% endblock %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-{% block javascript %}
-{% endblock %}
-  </body>
+
 </html>

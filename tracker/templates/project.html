@@ -1,100 +1,40 @@
 {% extends 'base.html' %}
-{% block navbar %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-             <a class="navbar-brand" href="{% url 'user:home' %}">HQ</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Focus
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=Overdue_tasks">Overdue</a></li>
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=Today_tasks">Today</a></li>
-                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_week">This Week</a></li>
-                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_month">This Month</a></li>
-            </ul>
-            </li>
-            <li><a class="nav-item nav-link" href="{% url 'tracker:task' %}">Tasks</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other filters
-                    <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=short_list_tasks">Short List</a></li>
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=Completed_tasks">Completed</a></li>
-                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=Deleted_tasks">Deleted</a></li>
-            </ul>
-            <li><a class="nav-item nav-link" href="{% url 'JQ:apps' %}"> JQ</a></li>
-        </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-            role="button" aria-expanded="false">Menu
-            <span class="caret"></span>
-          </a>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="{% url 'user:home' %}">Home</a></li>
-        <li><a href="{% url 'tracker:task' %}">Tracker</a></li>
-        <li><a href="{% url 'tracker:project' %}">Projects</a></li>
-        <li><a href="{% url 'JQ:apps' %}">Job Queue</a></li>
-        <li class="divider"></li>
-        <li><a href="{% url 'user:logout' %}">Logout</a>
-        </li>
-      </ul>
-    </li>
-</ul>
-        <!-- <div class="rightAlign">
-            <form type="get" action="." style="margin: 0">
-                <input  id="search_box" type="text" name="search"  placeholder="{{SearchWord}}" align="right">
-                <button id="search_submit" type="submit" >Search</button>
-            </form>
-        </div> -->
-    </div>
-</nav>
+{% block title %}
+<title>HQ - Projects</title>
 {% endblock %}
 {% block body %}
-<div>
-    <ul><h2 class="top-title"> Projects<a href="{% url 'tracker:create_project' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a></h2></ul>
-    {% if query %}
+<body class="project-list">
+    <div class="container">
+        <ul><h2 class="top-title"> Projects<a href="{% url 'tracker:create_project' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a></h2>
+        <div class="hidden-field" data-form-role="field">
+            <form method="POST">
+                <input type="text" placeholder="Create Project" autofocus/>
+                <button type="submit" class='btn-sm btn-success'>create</button>
+            </form>
+        </div>
+        {% if query %}
         <div class="row">
-                  {% for item in query %}
-          <div class="col-sm-4">
-            <div class="card text-center" style="width: 20rem;">
-              <div class="card-block">
-                <h4 class="card-title"><a href="{% url 'tracker:update_project' item.id %}">{{item.Project_name}}</a></h4>
-                <p class="card-text"> {{item.Description}} </p>
-                <a href="{% url 'tracker:project_list' item.id %}" class="btn btn-success"> view project</a> <br>
-                <a href="{% url 'tracker:delete_project' item.id %}" style="color: red"> delete </a>
-              </div>
-            </div>
-          </div>
+          {% for item in query %}
+             <a class="project-item" href="{% url 'tracker:project_list' item.id %}"> {{item.Project_name}}</a>
+             <a class="project-delete" href="{% url 'tracker:delete_project' item.id %}"> <span class="	glyphicon glyphicon-remove-circle"></span></a>
+          {% endfor %}
+        </div>
+    </ul>
+    </div>
+    <div class="container">
+        <ul><h2> Shared Projects </h2>
+            {% if shared_projects %}
+                {% for project in shared_projects %}
+                  <a class="project-item" href="{% url 'tracker:project_list' project.ProjectId.id %}">{{ project.ProjectId }} <br>
+                  {{ project.Owner.username}} </a>
                 {% endfor %}
-    {% endif %}
-</div>
-<div>
-    <ul class="shared-project-list"><h3> Shared Projects </h3>
-        <table class="table-hover" width="20%">
-            <tr>
-                <th>Project</th>
-                <th>Owner</th>
-            </tr>
-                {% if shared_projects %}
-                    {% for project in shared_projects %}
-              <tr>
-                  <td><a href="{% url 'tracker:project_list' project.ProjectId.id %}">{{ project.ProjectId }} </a></td>
-                  <td>{{ project.Owner.username}}</td>
-              </tr>
-
-      {% endfor %}
-  {% endif %}
-        </table>
-  </ul>
-
-</div>
-</div>
-
-            <!-- <h3 align="center"> Bummer. You don't have any projects started. <br>
-                Get started by clicking the add project button to the left. </h3>  -->
+            {% endif %}
+        </ul>
+     </div>
+     {% else %}
+     <h3 align="center"> You don't have any projects started. <br>
+         Get started by clicking the plus sign to the left.
+     </h3>
+     {% endif %}
+</body>
 {% endblock %}

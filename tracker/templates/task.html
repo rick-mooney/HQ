@@ -1,107 +1,94 @@
 {% extends 'base.html' %}
-{% block navbar %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-             <a class="navbar-brand" href="{% url 'user:home' %}">HQ</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Focus
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=Overdue_tasks">Overdue</a></li>
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=Today_tasks">Today</a></li>
-                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_week">This Week</a></li>
-                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_month">This Month</a></li>
-            </ul>
-            </li>
-            <li><a class="nav-item nav-link" href="{% url 'tracker:project' %}">Projects</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other filters
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=short_list_tasks">Short List</a></li>
-                <li><a class="nav-item nav-link" href="/tracker/task/?search=Completed_tasks">Completed</a></li>
-                <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=Deleted_tasks">Deleted</a></li>
-            </ul>
-            </li>
-            <li><a class="nav-item nav-link" href="{% url 'JQ:apps' %}"> JQ</a></li>
-        </ul>
-        <div class="rightAlign">
-            <form type="get" action="/tracker/task/" style="margin: 0">
-                <input  id="search_box" type="text" name="search"  placeholder="{{SearchWord}}" align="right">
-                <button id="search_submit" type="submit" >Search</button> <br>
-                <p style="color:white;"> Search by task name or notes </p>
-            </form>
-        </div>
-    </div>
-</nav>
+{% block title %}
+<title>HQ - Tasks</title>
 {% endblock %}
 {% block body %}
-<ul><h1> Tasks <a href="/tracker/task/create/?from={{ request.path|urlencode }}"> <img src="/static/css/images/plus.png" style="width:30px;height:30px;border:0;"> </a></h1></ul>
-<div class="rightAlign">
-    <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a>
-    {% if project %}
-        <form method="POST">
-            {% csrf_token %}
-            <div class="#">
-                <input placeholder="Enter Quick Task" id="id_task_name" name="task_name" autofocus
-                autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a task name.">
-                <button type="submit" class="btn btn-primary btn-sm">save</button>
-                <div class="controls">
-                    <span class="error-block help-block">
-                    </span>
-                </div>
-            </div>
-        </form>
-        {% if not team or user == team.0.Owner %}
-        <div class="#">
+<body>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card card-outline-primary mb-3 text-center" style="width: 40rem;">
+          <div class="card-block">
+            <h1> Tasks <a href="/tracker/task/create/?from={{ request.path|urlencode }}"> <img src="/static/css/images/plus.png" style="width:30px;height:30px;border:0;"> </a></h1>
+            <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card card-outline-primary mb-3 text-center" style="width: 40rem;">
+          <div class="card-block">
+            <form type="get" action="/tracker/task/" class="logo-text">
+                <input  id="search_box" type="text" name="search"  placeholder="{{SearchWord}}" align="right">
+                <button id="search_submit" class="btn-sm btn-success" type="submit" >Search</button> <br>
+                <label> Search by tasks, category, or notes </label>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rightAlign">
+        {% if project %}
             <form method="POST">
                 {% csrf_token %}
-                <input list="users" placeholder="Add Member" name="member_name" id="id_member_name" data-parsley-trigger="submit">
-                <button type="submit" class="btn-sm btn-primary"> save</a></button>
-                <datalist id="users">
-                    {% for name in users %}
-                    <option value="{{name}}">
-                    {% endfor %}
-                </datalist>
+                <div class="#">
+                    <input placeholder="Enter Quick Task" id="id_task_name" name="task_name" autofocus
+                    autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a task name.">
+                    <button type="submit" class="btn btn-primary btn-sm">save</button>
+                    <div class="controls">
+                        <span class="error-block help-block">
+                        </span>
+                    </div>
+                </div>
             </form>
-        </div>
+            {% if not team or user == team.0.Owner %}
+            <div class="#">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input list="users" placeholder="Add Member" name="member_name" id="id_member_name" data-parsley-trigger="submit">
+                    <button type="submit" class="btn-sm btn-primary"> save</a></button>
+                    <datalist id="users">
+                        {% for name in users %}
+                        <option value="{{name}}">
+                        {% endfor %}
+                    </datalist>
+                </form>
+            </div>
+            {% endif %}
+            <div class="#">
+                <h4> Project Team </h4>
+                <p> <strong>Owner</strong>: {{ team.0.Owner }} </P>
+                {% for member in team %}
+                    {{ member.Member }}
+                    <a href="{% url 'tracker:delete_member' member.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a>
+                    <br><br>
+                {% endfor %}
+            </div>
         {% endif %}
-        <div class="#">
-            <h4> Project Team </h4>
-            <p> <strong>Owner</strong>: {{ team.0.Owner }} </P>
-            {% for member in team %}
-                {{ member.Member }}
-                <a href="{% url 'tracker:delete_member' member.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a>
-                <br><br>
-            {% endfor %}
+    </div>
+    <section class="container">
+        <div class="table-responsive" align="center">
+            <table class="table-hover" width="75%">
+                <tr>
+                    <th> Task Name </th>
+                    <th> Category </th>
+                    <th> Goal Date </th>
+                    <th> Status </th>
+                </tr>
+                {% if query %}
+                {% for item in query %}
+                <tr>
+                    <td><a href="{% url 'tracker:update_task' item.id %}"> {{ item.Task_Name }} </td>
+                    <td> {{ item.Category }} </td>
+                    <td> {{ item.Goal_Date }} </td>
+                    <td> {{ item.get_Status_display }} </td>
+                    <td> <a href="{% url 'tracker:delete_task' item.id %}" class="delete" data-confirm="Are you sure you want to delete this task?"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <h3 align="center"> Looks like you don't have any tasks.  <br>
+                 Add tasks using the plus sign in the top left. </h3>
+            {% endif %}
         </div>
-    {% endif %}
-</div>
-<div class="table-responsive" align="center">
-    <table class="table-hover" width="75%">
-        <tr>
-            <th> Task Name </th>
-            <th> Category </th>
-            <th> Goal Date </th>
-            <th> Status </th>
-        </tr>
-        {% if query %}
-        {% for item in query %}
-        <tr>
-            <td><a href="{% url 'tracker:update_task' item.id %}"> {{ item.Task_Name }} </td>
-            <td> {{ item.Category }} </td>
-            <td> {{ item.Goal_Date }} </td>
-            <td> {{ item.get_Status_display }} </td>
-            <td> <a href="{% url 'tracker:delete_task' item.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <h3 align="center"> Looks like you don't have any tasks.  <br>
-        Make sure you add a <a href="{% url 'tracker:create_project' %}">project</a> first, then add tasks using the plus sign. </h3>
-    {% endif %}
-</div>
+    </section>
+</body>
 {% endblock %}
