@@ -27,6 +27,7 @@
                 <div class="form-group">
                     <label for="assignUser">Assign To</label>
                     <select class="form-control" name="user" id="assignUser">
+                        <option value="{{user.id}}" {% ifequal form.user.value name.Member.id %} selected {% endifequal %}>{{user.username}}</option>
                         {% for name in team %}
                         <option value="{{name.Member.id}}" {% ifequal form.user.value name.Member.id %} selected {% endifequal %}>{{name.Member}}</option>
                         {% endfor %}
