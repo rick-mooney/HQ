@@ -5,13 +5,14 @@ from django import forms
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
-    size = models.IntegerField(blank=True)
+    size = models.IntegerField(blank=True, null=True)
     location = models.CharField(max_length=100,blank=True)
     ceo = models.CharField(max_length=50,blank=True)
     industry = models.CharField(max_length=50,blank=True)
     incorporated = models.CharField(max_length=4,blank=True)
     other_notes = models.TextField(blank=True)
     isDeleted = models.BooleanField(default=False, blank=True)
+    watch_list = models.BooleanField(default=False, blank=True)
     user = models.ForeignKey(User)
     def __str__(self):
         return self.name

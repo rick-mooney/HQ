@@ -1,11 +1,52 @@
 {% extends 'base.html' %}
-
+{% block title %}
+<title>JQ - Edit Company</title>
+{% endblock %}
 {% block body %}
-<h1> Company </h1>
-<p> Update {{ object.name }} Company </p>
-<form method = "post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-default"> Update </button>
-</form>
+<header class="container">
+    <h1> Company </h1>
+    <p> Update {{ object.name }} company information </p>
+</header>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form method = "post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name </label>
+                    <input class="form-control" name="name" id="name" value="{{form.name.value}}">
+                </div>
+                <div class="form-group">
+                    <label for="size">Size </label>
+                    <input class="form-control" name="size" id="size" value="{{form.size.value}}">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location </label>
+                    <input class="form-control" name="location" id="location" value="{{form.location.value}}">
+                </div>
+                <div class="form-group">
+                    <label for="ceo">CEO </label>
+                    <input class="form-control" name="ceo" id="ceo" value="{{form.ceo.value}}">
+                </div>
+                <div class="form-group">
+                    <label for="name">Industry </label>
+                    <input class="form-control" name="industry" id="name" value="{{form.industry.value}}">
+                </div>
+                <div class="form-group">
+                    <label for="incorporated">Incorporated </label>
+                    <input class="form-control" name="incorporated" id="incorporated" value="{{form.incorporated.value}}">
+                </div>
+                <div class="form-group">
+                    <label for="other_notes">Other Notes </label>
+                    <textarea class="form-control" name="other_notes" id="other_notes" rows="10">{{form.other_notes.value}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="watch_list">Watch List </label>
+                    <input class="form-control" type="checkbox" name="watch_list" id="watch_list" {% ifequal form.watch_list.value True %} checked {% endifequal %} >
+                </div>
+                <button type="submit" class="btn btn-default"> Update </button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

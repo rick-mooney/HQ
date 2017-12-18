@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}
+<title>JQ - App Detail</title>
+{% endblock %}
 {% block body %}
 <div>
-    <a href="{% url 'JQ:apps' %}"> Back to Apps </a>
+    <a href="{% url 'JQ:apps' %}"> Back to Applications </a>
     <div class="rightAlign">
         <p><strong>Contact <a href="{% url 'JQ:create_contact' %}"> <img src="/static/css/images/plus.png" style="width:20px;height:20px;border:0;"> </a><br></strong></p>
         {% for contact in Contact %}

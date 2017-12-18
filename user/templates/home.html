@@ -7,65 +7,67 @@
         <p>A place for everything, everything in its place <br> ~ Ben Franklin </p>
         <a class="btn btn-success btn-sm" href="{% url 'user:login' %}">Login</a>
     </div>
-  <div class=reg_form id="signup_form">
-      <h4>Sign Up</h4>
-      <div class="form_body">
-          <form action="{% url 'user:signup' %}" method="POST" id="deep">
-              {% csrf_token %}
-              <div class="form-group">
-                  <input placeholder="First Name" id="id_first_name" name="first_name"
-                  autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your first name.">
-              <div class="controls">
-                  <span class="error-block help-block">
-                  </span>
+    <section>
+      <div class="reg_form" id="signup_form">
+          <h4>Sign Up</h4>
+          <div class="reg_form">
+              <form action="{% url 'user:signup' %}" method="POST" id="deep">
+                  {% csrf_token %}
+                  <div class="right-form-group">
+                      <input placeholder="First Name" id="id_first_name" name="first_name"
+                      autocomplete="fname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your first name.">
+                  <div class="controls">
+                      <span class="error-block help-block">
+                      </span>
+                  </div>
+                  </div>
+                  <div class="right-form-group">
+                      <input placeholder="Last Name" id="id_last_name" name="last_name"
+                      autocomplete="lname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your last name.">
+                  <div class="controls">
+                      <span class="error-block help-block">
+                      </span>
+                  </div>
+                  </div>
+                  <div class="right-form-group">
+                      <input placeholder="Email" id="id_email" name="email"
+                      autocomplete="email" type="email" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your email address.">
+                  <div class="controls">
+                      <span class="error-block help-block">
+                      </span>
+                  </div>
+                  </div>
+                  <div class="right-form-group">
+                      <input placeholder="Username" id="id_username" name="username"
+                      autocomplete="username" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a username.">
+                  <div class="controls">
+                      <span class="error-block help-block">
+                      </span>
+                  </div>
+                  </div>
+                  <div class="right-form-group">
+                      <input placeholder="password" id="id_password1" name="password1"
+                      autocomplete="password1" type="password" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a password.">
+                  <div class="controls">
+                      <span class="error-block help-block">
+                      </span>
+                  </div>
+                  </div>
+                  <div class="right-form-group">
+                      <input placeholder="confirm password" id="id_password2" name="password2"
+                      autocomplete="password2" type="password" data-parsley-trigger="submit" required data-parsely-error-message="Please confirm password.">
+                  <div class="controls">
+                      <span class="error-block help-block">
+                      </span>
+                  </div>
+                  <div>
+                      <button type="submit" class="btn btn-primary btn-sm" >Register</button> <br>
+                  </div>
+                  </div>
+              </form>
               </div>
-              </div>
-              <div class="form-group">
-                  <input placeholder="Last Name" id="id_last_name" name="last_name"
-                  autocomplete="lname" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your last name.">
-              <div class="controls">
-                  <span class="error-block help-block">
-                  </span>
-              </div>
-              </div>
-              <div class="form-group">
-                  <input placeholder="Email" id="id_email" name="email"
-                  autocomplete="email" type="email" data-parsley-trigger="submit" required data-parsely-error-message="Please enter your email address.">
-              <div class="controls">
-                  <span class="error-block help-block">
-                  </span>
-              </div>
-              </div>
-              <div class="form-group">
-                  <input placeholder="Username" id="id_username" name="username"
-                  autocomplete="username" type="text" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a username.">
-              <div class="controls">
-                  <span class="error-block help-block">
-                  </span>
-              </div>
-              </div>
-              <div class="form-group">
-                  <input placeholder="password" id="id_password1" name="password1"
-                  autocomplete="password1" type="password" data-parsley-trigger="submit" required data-parsely-error-message="Please enter a password.">
-              <div class="controls">
-                  <span class="error-block help-block">
-                  </span>
-              </div>
-              </div>
-              <div class="form-group">
-                  <input placeholder="confirm password" id="id_password2" name="password2"
-                  autocomplete="password2" type="password" data-parsley-trigger="submit" required data-parsely-error-message="Please confirm password.">
-              <div class="controls">
-                  <span class="error-block help-block">
-                  </span>
-              </div>
-              <div>
-                  <button type="submit" class="btn btn-primary btn-sm" >Register</button> <br>
-              </div>
-              </div>
-          </form>
           </div>
-      </div>
+      </section>
   </div>
 <div class="container">
   <div class="row">

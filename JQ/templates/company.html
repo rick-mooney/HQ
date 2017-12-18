@@ -13,12 +13,10 @@
             </tr>
             {% for item in query %}
             <tr>
-                <td> {{ item.name }} </td>
+                <td> <a href="{% url 'JQ:edit_company' item.id %}">{{ item.name }} </td>
                 <td> {{ item.location }} </td>
                 <td> {{ item.industry }} </td>
                 <td><a href="{% url 'JQ:delete_company' item.id %}"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a>&nbsp; &nbsp;
-                    <a href="{% url 'JQ:edit_company' item.id %}"> <img src="/static/css/images/pencil-edit.png" style="width:15px;height:15px;border:0;"> </a>
-                </td>
             </tr>
             {% endfor %}
         </table>

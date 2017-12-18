@@ -12,6 +12,11 @@ from datetime import datetime, timedelta, time
 from tracker.models import Task, Project, ProjectMember
 from tracker.forms import (CreateTaskForm, CreateProjectForm, EditTaskForm)
 
+class canvas(TemplateView):
+    template_name = 'canvas.html'
+    def get(self, request):
+        return render(request, self.template_name)
+
 class TaskView(TemplateView):
     template_name = 'task.html'
 
@@ -205,8 +210,9 @@ class CreateTaskView(TemplateView):
         return render(request, self.template_name, {'form': form, 'from': request.GET.get('from',None)})
 
     def post(self, request):
-        user=request.user
+        user = request.user
         form = CreateTaskForm(user, request.POST)
+        form.user = user.id
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
@@ -216,9 +222,9 @@ class CreateTaskView(TemplateView):
                 return redirect(next)
             else:
                 return redirect('tracker:task')
-
-        args = {'form':form, 'from' : request.GET.get('from', None)}
-        return render(request, self.template_name, args)
+        else:
+            args = {'form':form, 'from' : request.GET.get('from', None)}
+            return render(request, self.template_name, args)
 
 
 class TaskDelete(DeleteView):
@@ -246,31 +252,40 @@ class TaskEdit(TemplateView):
             for name in team_members:
                 name_id = name.get('Member')
                 team_list.append(name_id)
-        if user.id == task_owner:
+        if (user.id in team_list) | (user.id in owner_id):
+            team = ProjectMember.objects.all().filter(ProjectId=project_id)
+            query = Task.objects.get(id=task_id)
+            form = EditTaskForm(instance=query)
+            return render(request, self.template_name, {'form': form, 'team': team})
+        elif user.id == task_owner:
             query = Task.objects.get(id=task_id, user=user)
             form = EditTaskForm(instance=query)
             return render(request, self.template_name, {'form': form})
-        elif (user.id in team_list) | (user.id in owner_id):
-            query = Task.objects.get(id=task_id)
-            form = EditTaskForm(instance=query)
-            return render(request, self.template_name, {'form': form})
+
         else:
             return redirect('tracker:project')
 
     def post(self, request, **kwargs):
-        user = request.user
         task_id = self.kwargs['pk']
         query = Task.objects.get(id=task_id)
         task_data = Task.objects.all().filter(id=task_id)
         project_id = task_data.values_list('Project')[0][0]
         project = Project.objects.get(id=project_id)
-        form = EditTaskForm(request.POST, instance=query)
-        post = form.save(commit=False)
-        post.user = user
-        post.Project = project
-        if post.Status == 'CO':
-            post.Complete_Date = datetime.now().date()
-        post.save()
+        taskOwner = User.objects.get(id=request.POST.get('user'))
+        query.user = taskOwner
+        query.Project = project
+        query.Task_Name = request.POST.get('task')
+        query.Category = request.POST.get('category')
+        query.Status = request.POST.get('status')
+        query.Notes = request.POST.get('notes')
+        query.Goal_Date = request.POST.get('Goal_Date')
+        if request.POST.get('shortList') == None:
+            query.Short_list = False
+        else:
+            query.Short_list = True
+        if query.Status == 'CO':
+            form.Complete_Date = datetime.now().date()
+        query.save()
         next = request.POST.get('next','/')
         return HttpResponseRedirect(next)
 

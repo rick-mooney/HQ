@@ -39,6 +39,7 @@ a {
 
 .rightAlign {
     float: right;
+    padding-right: 50px;
 }
 
 .table-responsive {

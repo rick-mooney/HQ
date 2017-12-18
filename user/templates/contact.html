@@ -2,15 +2,14 @@
 
 {% block body %}
 <div class="container">
-    <h2 style="text-align:center;">I am always looking for feedback, Send me a message!</h2>
+    <h3 style="text-align:center;">I am always looking for feedback, Send me a message!</h3>
 </div>
 <div class="row">
   <div class="col-sm-4">
     <div class="card text-center" style="width: 20rem;">
       <div class="card-block">
         <h3 class="card-title">Give Feedback</h3>
-        <p class="card-text"> I need your help! <br> you won't hurt my feelings </p>
-        <a href="mailto:rick.a.mooney@gmail.com" class="btn btn-success"> Email Feedback</a> <br>
+        <a href="mailto:rick.a.mooney@gmail.com" class="btn btn-success"> Email </a> <br>
       </div>
   </div>
     </div>
@@ -18,8 +17,7 @@
       <div class="card text-center" style="width: 20rem;">
         <div class="card-block">
           <h3 class="card-title">Report an Issue</h3>
-          <p class="card-text"> Uh oh! <br> Take screen shots if you can </p>
-          <a href="mailto:rick.a.mooney@gmail.com" class="btn btn-success"> Email Issues</a> <br>
+          <a href="mailto:rick.a.mooney@gmail.com" class="btn btn-success"> Email </a> <br>
         </div>
       </div>
   </div>
@@ -27,11 +25,12 @@
         <div class="card text-center" style="width: 20rem;">
           <div class="card-block">
             <h3 class="card-title">Development Ideas</h3>
-            <p class="card-text"> Great minds think for themselves <br> placeholder </p>
-            <a href="mailto:rick.a.mooney@gmail.com" class="btn btn-success"> Email Development Request</a> <br>
+            <a href="mailto:rick.a.mooney@gmail.com" class="btn btn-success"> Email</a> <br>
           </div>
         </div>
     </div>
+</div>
+<div class="container">
     <h3 style="text-align:center;"> Here are the current tasks I am working on for HQ: </h3>
     <div class="table-responsive" align="center">
         <table class="table-hover" width="75%">
@@ -46,7 +45,7 @@
             {% for item in query %}
             <tr>
                 <td> {{ item.Task_Name }} </td>
-                <td> {{ item.Notes}} </td>
+                <td style="word-wrap"> {{ item.Notes}} </td>
                 <td> {{ item.Category }} </td>
                 <td> {{ item.Goal_Date }} </td>
                 <td> {{ item.get_Status_display }} </td>
@@ -55,6 +54,7 @@
             {% endif %}
         </table>
     </div>
-  </div>
+</div>
+
 
 {% endblock %}

@@ -4,7 +4,16 @@
 <div>
     <ul><h1> Applications <a href="{% url 'JQ:create_company' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a><br></h1></ul>
     <ul><a href="{% url 'JQ:create_question' %}" class="btn-sm btn-success"> Add Question</a>
+    <a href="{% url 'JQ:create_company' %}" class="btn-sm btn-success"> Add Company</a></ul>
 </div>
+<div class="rightAlign">
+    <h4><a href="{% url 'JQ:company' %}">Company</a> <br> Watch List</h4>
+    {% for item in company %}
+    <a href="{% url 'JQ:edit_company' item.id %}"> {{item.name}} </a>
+    <br>
+    {% endfor %}
+</div>
+
     <div class="table-responsive" align="center">
         <table class="table-hover" width="75%">
             <tr>

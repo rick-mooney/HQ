@@ -1,13 +1,75 @@
 {% extends 'base.html' %}
-
+{% block title %}
+<title>HQ - Create Task</title>
+{% endblock %}
 {% block body %}
-<h1> Task </h1>
-<p> {{objects.get.Project.Project_name}}
-<p>Create a new task </p>
-<form method = "post" action="{% if from %}?next={{ from }}{% endif %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
-    <button type="submit" class="btn btn-default"> Submit </button>
-</form>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<body>
+    <header class="container">
+        <h3> Create Task </h3>
+    </header>
+    <div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form method = "post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="taskName">Task Name </label>
+                    <input class="form-control" name="Task_Name" id="taskName" autofocus required>
+                </div>
+                <div class="form-group">
+                    <label for="projectName">Project </label>
+                    <select class="form-control" name="Project" id="projectName">
+                        {%for item in form.Project%}
+                        <option>{{item}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="categoryName">Category</label>
+                    <input class="form-control" name="Category" id="categoryName">
+                </div>
+                {% if team %}
+                <div class="form-group">
+                    <label for="assignUser">Assign To</label>
+                    <select class="form-control" name="user" id="assignUser">
+                        {% for name in team %}
+                        <option value="{{name.Member.id}}">{{name.Member}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="Status" id="statusName">
+                        <option value="NS" >Not Started</option>
+                        <option value="IP" >In Progress</option>
+                        <option value="OH" >On Hold</option>
+                        <option value="CO" >Completed</option>
+                    </select>
+                </div>
+                <label>Goal Date</label>
+                <div class='form-group' name="Goal_Date" id='goalDate'>
+                   {{form.Goal_Date}}
+                   <!-- <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span> -->
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea class="form-control" name="Notes" id="Notes" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="shortList">Short List</label>
+                    <input type="checkbox" class="form-control" name="Short_list" id="SLName" >
+                </div>
+                <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
+                <button type="submit" class="btn btn-default"> Create </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
 {% endblock %}

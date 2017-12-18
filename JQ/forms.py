@@ -19,7 +19,7 @@ class CreateApplication(forms.ModelForm):
         model = Application
         exclude = {'user','isDeleted'}
         widgets = {
-            'applied_date':DateInput(),
+            'applied_date': forms.DateInput(attrs={'id': 'datetimepicker1', 'class':'form-control','type':'date'})
         }
     def __init__(self, user, *args, **kwargs):
        super(CreateApplication, self).__init__(*args, **kwargs)

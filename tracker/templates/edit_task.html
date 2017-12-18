@@ -1,18 +1,68 @@
 {% extends 'base.html' %}
+{% block title %}
+<title>HQ - Edit Task</title>
+{% endblock %}
 
 {% block body %}
-<h1> Tasks </h1>
-<p> Update {{ object.Task_Name }} in the Task List </p>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<form method = "post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
-    <button type="submit" class="btn btn-default"> Update </button>
-</form>
-<div class="fieldWrapper">
-    {{ form.subject.errors }}
-    {{ form.subject.label_tag }}
-    {{ form.subject }}
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<body>
+    <header class="container">
+        <h3> Update Tasks </h3>
+    </header>
+    <div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form method = "post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="taskName">Task Name </label>
+                    <input class="form-control" name="task" id="taskName" value="{{form.Task_Name.value}}" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="categoryName">Category</label>
+                    <input class="form-control" name="category" id="categoryName" value="{{form.Category.value}}">
+                </div>
+                {% if team %}
+                <div class="form-group">
+                    <label for="assignUser">Assign To</label>
+                    <select class="form-control" name="user" id="assignUser">
+                        {% for name in team %}
+                        <option value="{{name.Member.id}}" {% ifequal form.user.value name.Member.id %} selected {% endifequal %}>{{name.Member}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="status" id="statusName">
+                        <option value="NS" {%ifequal form.Status.value "NS" %} selected {% endifequal %}>Not Started</option>
+                        <option value="IP" {%ifequal form.Status.value "IP" %} selected {% endifequal %}>In Progress</option>
+                        <option value="OH" {%ifequal form.Status.value "OH" %} selected {% endifequal %}>On Hold</option>
+                        <option value="CO" {%ifequal form.Status.value "CO" %} selected {% endifequal %}>Completed</option>
+                    </select>
+                </div>
+                <label>Goal Date</label>
+                <div class='form-group' id='goalDate'>
+                   {{form.Goal_Date}}
+                   <!-- <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span> -->
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea class="form-control" name="notes" id="Notes" rows="10">{{form.Notes.value}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="shortList">Short List</label>
+                    <input type="checkbox" class="form-control" name="shortList" id="SLName" {% ifequal form.Short_list.value True %} checked {%endifequal%} >
+                </div>
+                <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
+                <button type="submit" class="btn btn-default"> Update </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+</body>
 {% endblock %}

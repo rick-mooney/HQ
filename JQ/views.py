@@ -15,8 +15,9 @@ class AppView(TemplateView):
 
     def get(self, request):
         user = request.user
+        company = Company.objects.all().filter(user=user, watch_list=True)
         query = Application.objects.all().exclude(app_status ="CO").filter(user=user).order_by('applied_date')
-        args = {'query': query}
+        args = {'query': query, 'company':company}
         return render(request, self.template_name, args)
 
 class AppDetail(TemplateView):
@@ -85,7 +86,7 @@ class DeleteCompany(DeleteView):
 class EditCompany(UpdateView):
     model = Company
     form_class = CreateCompany
-    success_url = reverse_lazy('JQ:company')
+    success_url = reverse_lazy('JQ:apps')
 
 class DashboardView(TemplateView):
     template_name = 'dashboard_detail.html'
