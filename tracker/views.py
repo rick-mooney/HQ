@@ -284,7 +284,7 @@ class TaskEdit(TemplateView):
         else:
             query.Short_list = True
         if query.Status == 'CO':
-            form.Complete_Date = datetime.now().date()
+            query.Complete_Date = datetime.now().date()
         query.save()
         next = request.POST.get('next','/')
         return HttpResponseRedirect(next)
