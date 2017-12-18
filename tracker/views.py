@@ -266,13 +266,18 @@ class TaskEdit(TemplateView):
             return redirect('tracker:project')
 
     def post(self, request, **kwargs):
+        user = request.user
         task_id = self.kwargs['pk']
         query = Task.objects.get(id=task_id)
         task_data = Task.objects.all().filter(id=task_id)
         project_id = task_data.values_list('Project')[0][0]
         project = Project.objects.get(id=project_id)
-        taskOwner = User.objects.get(id=request.POST.get('user'))
-        query.user = taskOwner
+        assigned_user = request.POST.get('user')
+        if assigned_user != None:
+            taskOwner = User.objects.get(id=assigned_user)
+            query.user = taskOwner
+        else:
+            query.user = user
         query.Project = project
         query.Task_Name = request.POST.get('task')
         query.Category = request.POST.get('category')
