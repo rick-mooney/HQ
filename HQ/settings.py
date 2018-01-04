@@ -44,8 +44,7 @@ INSTALLED_APPS = [
     'HQ',
     'user',
     'tracker',
-    'JQ',
-    'bucketList'
+    'JQ'
 ]
 
 MIDDLEWARE = [
