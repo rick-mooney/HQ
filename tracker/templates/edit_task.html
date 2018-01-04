@@ -4,11 +4,14 @@
 {% endblock %}
 
 {% block body %}
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="/static/bower_components/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+
 <body>
     <header class="container">
         <h3> Update Tasks </h3>
+        <p> Task: {{form.Modified_Date}}
     </header>
     <div class="container">
     <div class="panel panel-default">
@@ -45,10 +48,12 @@
                 </div>
                 <label>Goal Date</label>
                 <div class='form-group' id='goalDate'>
-                   {{form.Goal_Date}}
-                   <!-- <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                    </span> -->
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" value="{{form.Goal_Date.value}}" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="notes">Notes</label>
@@ -59,11 +64,18 @@
                     <input type="checkbox" class="form-control" name="shortList" id="SLName" {% ifequal form.Short_list.value True %} checked {%endifequal%} >
                 </div>
                 <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
-                <button type="submit" class="btn btn-default"> Update </button>
+                <button type="submit" class="btn btn-default btn-block"> Update </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    });
+</script>
 </body>
 {% endblock %}

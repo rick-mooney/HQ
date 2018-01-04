@@ -4,11 +4,12 @@
 {% endblock %}
 {% block body %}
 <body class="project-list">
-    <div class="container">
-        <ul><h2 class="top-title"> Projects<a href="{% url 'tracker:create_project' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a></h2>
+    <div class="container" id="firstDiv">
+        <ul><h2 class="top-title"> Projects<a id="newProject" href="{% url 'tracker:create_project' %}"> <img src="/static/css/images/plus.png" style="width:25px;height:25px;border:0;"> </a></h2>
         <div class="hidden-field" data-form-role="field">
             <form method="POST">
-                <input type="text" placeholder="Create Project" autofocus/>
+                {% csrf_token %}
+                <input type="text" name="project_name" placeholder="Enter New Project Name" autofocus/>
                 <button type="submit" class='btn-sm btn-success'>create</button>
             </form>
         </div>
@@ -16,7 +17,7 @@
         <div class="row">
           {% for item in query %}
              <a class="project-item" href="{% url 'tracker:project_list' item.id %}"> {{item.Project_name}}</a>
-             <a class="project-delete" href="{% url 'tracker:delete_project' item.id %}"> <span class="	glyphicon glyphicon-remove-circle"></span></a>
+             <a class="project-delete" id='deleteProject' href="{% url 'tracker:delete_project' item.id %}"> <span class="	glyphicon glyphicon-remove-circle"></span></a>
           {% endfor %}
         </div>
     </ul>
@@ -36,5 +37,6 @@
          Get started by clicking the plus sign to the left.
      </h3>
      {% endif %}
+     <script type="text/javascript" src="/static/js/project.js"></script>
 </body>
 {% endblock %}

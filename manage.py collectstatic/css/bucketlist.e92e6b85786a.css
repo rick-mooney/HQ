@@ -1,0 +1,24 @@
+#leftTitle {
+    width: 5px;
+    height: 120px;
+    text-align: center;
+    transform: rotate(270deg);
+}
+
+#sixMonths {
+    height: 120px;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+#twelveMonths {
+    height: 120px;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+#beyond {
+    height: 120px;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}

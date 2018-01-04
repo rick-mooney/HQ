@@ -74,8 +74,30 @@ class TaskView(TemplateView):
     def post(self, request):
         user=request.user
         search_query = request.GET.get('search', None)
-        query = (Task.objects.all().filter(Task_Name__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date')) \
-        | (Task.objects.all().filter(Notes__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))
+        massUpdateList = request.POST.getlist('selectedTask')
+        if massUpdateList != None:
+            cat = request.POST.get('category')
+            stat = request.POST.get('status')
+            goalDate = request.POST.get('goalDate')
+            shortList = request.POST.get('shortList')
+            for task in massUpdateList:
+                update = Task.objects.get(pk=int(task))
+                if cat != '':
+                    update.Category = cat
+                if stat != '':
+                    update.Status = stat
+                if goalDate != '':
+                    update.Goal_Date = goalDate
+                if shortList:
+                    update.Short_list = True
+                update.save()
+        if search_query != None:
+            query = (Task.objects.all().filter(Task_Name__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date')) \
+            | (Task.objects.all().filter(Notes__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))\
+            | (Task.objects.all().filter(Category__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))
+        else:
+            query = Task.objects.all().filter(user=user).exclude(Status="CO").order_by('Goal_Date')
+            search_query = ''
         args = {'query': query,'SearchWord':search_query}
         return render(request, self.template_name, args)
 
@@ -88,6 +110,17 @@ class ProjectView(TemplateView):
         shared_projects = ProjectMember.objects.all().filter(Member=user)
         args = {'query': query, 'shared_projects':shared_projects}
         return render(request, self.template_name, args)
+
+    def post(self, request):
+        user = request.user
+        new_project = request.POST.get('project_name')
+        if new_project:
+            Project.objects.create(Project_name=new_project, user=user)
+        query = Project.objects.all().filter(user=user)
+        shared_projects = ProjectMember.objects.all().filter(Member=user)
+        args = {'query': query, 'shared_projects':shared_projects}
+        return render(request, self.template_name, args)
+
 
 class CreateProject(TemplateView):
     template_name = 'create_project.html'

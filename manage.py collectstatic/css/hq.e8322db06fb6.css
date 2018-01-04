@@ -1,0 +1,178 @@
+/*.navbar {
+    opacity: .8;
+} use if you want the fixed dropped down */
+@font-face{
+
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    /*display: flex;
+    flex-direction: column;*/
+}
+
+.top-title {
+
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.hero-image-container {
+    background-image: url("images/night.998507b565d6.jpeg");
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 700px;
+    color: black;
+    line-height: 90%;
+}
+
+.container-hero {
+    text-align: center;
+    color: white;
+}
+
+.rightAlign {
+    float: right;
+    padding-right: 50px;
+}
+
+.table-responsive {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 50px;
+    padding-left: 5px;
+}
+
+.reg_form {
+    float: right;
+    padding: 15px;
+    width: 60%;
+    background-color: black;
+    opacity: .8;
+    text-align: center;
+    color: white;
+}
+
+.right-form-group {
+    float: right;
+    color:black;
+}
+
+.project-list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-item {
+    display: inline-block;
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 120px;
+    max-height: 120px;
+    border: 1px solid rgb(100%,100%,100%);
+    margin: 4px;
+
+    background-color: rgba(54, 69, 79, 1);
+    color: white;
+    text-align: center;
+
+    border-radius: 0.75em;
+    padding: 20px 0;
+}
+
+.project-delete {
+    position: relative;
+    top: -15px;
+    right: 30px;
+
+    color: rgb(255,89,84);
+}
+
+.HolyGrail, .HolyGrail-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.HolyGrail-header{
+    flex: 0 1 auto;
+}
+
+.logo-text {
+    text-align: center;
+}
+
+.HolyGrail-nav {
+  order: -1;
+}
+
+.app-list {
+    flex: 0 1 auto;
+    order: 2;
+    justify-content: space-between;
+    list-style: none;
+    padding: 20px 0;
+
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.app-item {
+    display: block;
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    text-align: center;
+    border: 1px solid rgba(100%, 100%, 100%, 0.8)
+}
+
+.app-item:hover {
+    transform: scale(1.2);
+}
+
+.HolyGrail-footer {
+    text-align:center;
+}
+
+.hidden-field {
+    display: none;
+}
+
+.alert: alert-danger {
+    text-align:center;
+}
+
+#box.activated {
+    background-color: #ccc;
+}
+
+.pop-out-form {
+    flex: 1 1 auto;
+    display: flex;
+    transition: transform 4s;
+}
+
+@media (min-width: 768px) {
+
+  .reg_form {
+      width: 15%;
+  }
+  .HolyGrail-body {
+    flex-direction: row;
+    flex: 1;
+  }
+  .HolyGrail-content {
+    flex: 1;
+  }
+  .HolyGrail-nav, .HolyGrail-ads {
+    /* 12em is the width of the columns */
+    flex: 0 0 20em;
+  }
+}

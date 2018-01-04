@@ -39,6 +39,7 @@ a {
 
 .rightAlign {
     float: right;
+    padding-right: 50px;
 }
 
 .table-responsive {
@@ -91,7 +92,7 @@ a {
     top: -15px;
     right: 30px;
 
-    color: red;
+    color: rgb(255,89,84);
 }
 
 .HolyGrail, .HolyGrail-body {
@@ -142,6 +143,14 @@ a {
 
 .hidden-field {
     display: none;
+}
+
+.alert: alert-danger {
+    text-align:center;
+}
+
+#box.activated {
+    background-color: #ccc;
 }
 
 .pop-out-form {
