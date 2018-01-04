@@ -46,10 +46,10 @@
                         <option value="CO" {%ifequal form.Status.value "CO" %} selected {% endifequal %}>Completed</option>
                     </select>
                 </div>
-                <label>Goal Date</label>
+                <label for="Goal_Date">Goal Date</label>
                 <div class='form-group' id='goalDate'>
                     <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" value="{{form.Goal_Date.value}}" />
+                        <input type='text' class="form-control" value="{{form.Goal_Date.value|date:"Y-m-d"}}" name="Goal_Date" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
