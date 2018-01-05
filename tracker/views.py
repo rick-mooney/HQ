@@ -180,6 +180,7 @@ class ProjectListView(TemplateView):
             team = ProjectMember.objects.all().filter(ProjectId=project)
             args = {'query': query, 'project':project, 'users':all_users, 'team':team}
             return render(request, self.template_name, args)
+
         else:
             return redirect('tracker:project')
 
@@ -195,6 +196,23 @@ class ProjectListView(TemplateView):
         member_id = []
         team_members = ProjectMember.objects.all().filter(ProjectId=project).values('Member')
         project_owners = ProjectMember.objects.all().filter(ProjectId=project).values('Owner')
+        massUpdateList = request.POST.getlist('selectedTask')
+        if massUpdateList != None:
+            cat = request.POST.get('category')
+            stat = request.POST.get('status')
+            goalDate = request.POST.get('goalDate')
+            shortList = request.POST.get('shortList')
+            for task in massUpdateList:
+                update = Task.objects.get(pk=int(task))
+                if cat != '':
+                    update.Category = cat
+                if stat != '':
+                    update.Status = stat
+                if goalDate != '':
+                    update.Goal_Date = goalDate
+                if shortList:
+                    update.Short_list = True
+                update.save()
         if new_task != None:
             post = Task()
             post.user=user
@@ -227,6 +245,7 @@ class ProjectListView(TemplateView):
             team = ProjectMember.objects.all().filter(ProjectId=project)
             args = {'query': query, 'project':project, 'users':all_users, 'team':team}
             return render(request, self.template_name, args)
+
         else:
             return redirect('tracker:project')
 
