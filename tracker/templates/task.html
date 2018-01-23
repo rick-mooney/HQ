@@ -7,6 +7,22 @@
 <script type="text/javascript" src="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 <body>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                Are you sure you want to delete?
+            </div> -->
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="" class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row">
       <div class="col-sm-4">
         <div class="card card-outline-primary mb-3 text-center" style="width: 40rem;">
@@ -21,9 +37,14 @@
             <div class="card card-outline-primary mb-3 text-center" style="width: 40rem;">
               <div class="card-block">
                 <form type="get" action="/tracker/task/" class="logo-text">
-                    <input  id="search_box" type="text" name="search"  value="{{SearchWord}}" align="right">
-                    <button id="search_submit" class="btn-sm btn-success" type="submit" >Search</button> <br>
-                    <label> Search by tasks, category, or notes </label>
+                    <div class="box">
+                      <div class="container-3">
+                          <span class="fa fa-search"></span>
+                          <input type="search" name="search" id="search" placeholder="{{SearchWord}}" autofocus>
+                          <button id="search_submit" class="btn-sm btn-success" type="submit" >Search</button> <br>
+                          <label> Search by tasks, category, or notes </label>
+                      </div>
+                    </div>
                 </form>
               </div>
             </div>
@@ -69,7 +90,7 @@
             {% endif %}
         </div>
         <section class="container">
-            <div class="table-responsive" align="center">
+            <div class="#" align="center">
                 <div class="hidden-field" data-form-role="field">
                     <form method="POST">
                         {% csrf_token %}
@@ -92,7 +113,7 @@
                         <div class="col-sm-6">
                             <label for="shortList">Short List </label>
                             <input type="checkbox" name="shortList"/>
-                            <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
                         </div>
                 </div>
                 <table class="table-hover" width="75%">
@@ -109,7 +130,7 @@
                         <td> {{ item.Category }} </td>
                         <td id="goalDate"> {{ item.Goal_Date }} </td>
                         <td id="status"> {{ item.get_Status_display }} </td>
-                        <td> <a href="{% url 'tracker:delete_task' item.id %}" class="delete" data-confirm="Are you sure you want to delete this task?"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
+                        <td> <a href="{% url 'tracker:delete_task' item.id %}" id="{{item.id}}" class="delete" data-toggle="modal" data-target="#confirm-delete"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
                         <td class="hidden-field"><input type="checkbox" name="selectedTask" value="{{ item.id }}"/></td>
                     </tr>
                     {% endfor %}

@@ -75,6 +75,7 @@ class TaskView(TemplateView):
         user=request.user
         search_query = request.GET.get('search', None)
         massUpdateList = request.POST.getlist('selectedTask')
+        next = request.POST.get('next','/')
         if massUpdateList != None:
             cat = request.POST.get('category')
             stat = request.POST.get('status')
@@ -91,15 +92,7 @@ class TaskView(TemplateView):
                 if shortList:
                     update.Short_list = True
                 update.save()
-        if search_query != None:
-            query = (Task.objects.all().filter(Task_Name__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date')) \
-            | (Task.objects.all().filter(Notes__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))\
-            | (Task.objects.all().filter(Category__icontains=search_query, user=user).exclude(Status="CO").order_by('Goal_Date'))
-        else:
-            query = Task.objects.all().filter(user=user).exclude(Status="CO").order_by('Goal_Date')
-            search_query = ''
-        args = {'query': query,'SearchWord':search_query}
-        return render(request, self.template_name, args)
+        return HttpResponseRedirect(next)
 
 class ProjectView(TemplateView):
     template_name = 'project.html'

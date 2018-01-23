@@ -45,7 +45,7 @@
             {% for item in query %}
             <tr>
                 <td> {{ item.Task_Name }} </td>
-                <td style="word-wrap"> {{ item.Notes}} </td>
+                <td width="30%" style="word-wrap: break-word"> {{ item.Notes}} </td>
                 <td> {{ item.Category }} </td>
                 <td> {{ item.Goal_Date }} </td>
                 <td> {{ item.get_Status_display }} </td>
