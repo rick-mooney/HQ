@@ -75,7 +75,6 @@ class TaskView(TemplateView):
         user=request.user
         search_query = request.GET.get('search', None)
         massUpdateList = request.POST.getlist('selectedTask')
-        next = request.POST.get('next','/')
         if massUpdateList != None:
             cat = request.POST.get('category')
             stat = request.POST.get('status')
@@ -272,10 +271,12 @@ class CreateTaskView(TemplateView):
             return render(request, self.template_name, args)
 
 
-class TaskDelete(DeleteView):
-    model = Task
-    success_url = reverse_lazy('tracker:task')
-
+def delete_task(request, **kwargs):
+        user = request.user
+        task_id = kwargs['pk']
+        Task.objects.filter(id=task_id).delete()
+        last_page = request.GET.get('last_page')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 class TaskEdit(TemplateView):
     template_name = 'edit_task.html'
 

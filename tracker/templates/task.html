@@ -10,15 +10,12 @@
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- <div class="modal-header">
-                Are you sure you want to delete?
-            </div> -->
             <div class="modal-body">
                 Are you sure you want to delete?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="" class="btn btn-danger btn-ok">Delete</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="" id="confirm_delete_button" class="btn btn-danger btn-ok">Delete</a>
             </div>
         </div>
     </div>
@@ -130,7 +127,7 @@
                         <td> {{ item.Category }} </td>
                         <td id="goalDate"> {{ item.Goal_Date }} </td>
                         <td id="status"> {{ item.get_Status_display }} </td>
-                        <td> <a href="{% url 'tracker:delete_task' item.id %}" id="{{item.id}}" class="delete" data-toggle="modal" data-target="#confirm-delete"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
+                        <td> <a href="{% url 'tracker:delete_task' item.id %}" onclick="getId(this)" class="delete" data-toggle="modal" data-target="#confirm-delete"> <img src="/static/css/images/cancel.png" style="width:15px;height:15px;border:0;"> </a> </td>
                         <td class="hidden-field"><input type="checkbox" name="selectedTask" value="{{ item.id }}"/></td>
                     </tr>
                     {% endfor %}
