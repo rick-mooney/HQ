@@ -73,7 +73,7 @@ class TaskView(TemplateView):
 
     def post(self, request):
         user=request.user
-        search_query = request.GET.get('search', None)
+        next = request.POST.get('next', '/tracker/task')
         massUpdateList = request.POST.getlist('selectedTask')
         if massUpdateList != None:
             cat = request.POST.get('category')
