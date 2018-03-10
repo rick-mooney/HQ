@@ -33,7 +33,7 @@
 <div class="container">
     <h3 style="text-align:center;"> Here are the current tasks I am working on for HQ: </h3>
     <div class="table-responsive" align="center">
-        <table class="table-hover" width="75%">
+        <table class="table-hover" width="90%" style='border-spacing:20px'>
             <tr>
                 <th> Task Name </th>
                 <th> Detail </th>
@@ -44,11 +44,11 @@
             {% if query %}
             {% for item in query %}
             <tr>
-                <td> {{ item.Task_Name }} </td>
-                <td width="30%" style="word-wrap: break-word"> {{ item.Notes}} </td>
-                <td> {{ item.Category }} </td>
-                <td> {{ item.Goal_Date }} </td>
-                <td> {{ item.get_Status_display }} </td>
+                <td width="35%"> {{ item.Task_Name }} </td>
+                <td width="35%" style="word-wrap: break-word"> {{ item.Notes}} </td>
+                <td width="20%"> {{ item.Category }} </td>
+                <td width="20%"> {{ item.Goal_Date }} </td>
+                <td width="10%"> {{ item.get_Status_display }} </td>
             </tr>
             {% endfor %}
             {% endif %}

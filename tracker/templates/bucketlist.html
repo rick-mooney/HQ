@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>HQ - Bucketlist</title>
+{% endblock %}
+
+
+{% block body %}
+<link href="/static/css/bucketlist.css" rel="stylesheet" type="text/css">
+<h1> Bucket List </h1>
+{% if query %}
+{% for item in category %}
+<div class="container">
+    <div class="row">
+        <h4>{{item.Category}}</h4><hr/>
+        <div class="jumbotron">
+            <div class="itemLists">
+                {% for task in query %}
+                    {% if task.Category == item.Category %}
+                    <p><a href="{% url 'tracker:update_task' task.id %}"> {{task.Task_Name}}</a></p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="container">
+    <h3 align="center"> Bummer.  You don't have a Bucketlist yet!  <br>
+         Create a project named 'Bucketlist' and use categories to organize your goals. </h3>
+         <p align="center"> A button to autocreate this will be available shortly </p>
+</div>
+{% endif %}
+
+
+
+{% endblock %}

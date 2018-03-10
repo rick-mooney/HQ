@@ -7,7 +7,7 @@
     <form method = "post">
         {% csrf_token %}
         <p> Are you sure you want to delete "{{ object.Task_Name }}"? </p>
-        <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
         <input type ="submit" value="Submit"/>
     </form>
 </div>

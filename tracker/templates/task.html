@@ -25,9 +25,8 @@
         <div class="card card-outline-primary mb-3 text-center" style="width: 40rem;">
           <div class="card-block">
             <h1> Tasks <a href="/tracker/task/create/?from={{ request.path|urlencode }}"> <img src="/static/css/images/plus.png" style="width:30px;height:30px;border:0;"> </a></h1>
-            <a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a><br>
             <button class="btn-sm btn-primary" id="massUpdate">Mass Update</button>
-          </div>
+        </div>
         </div>
       </div>
           <div class="col-sm-4">
@@ -43,6 +42,7 @@
                       </div>
                     </div>
                 </form>
+                <p> Tasks: {{query.count}} </p>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@
                     {% if query %}
                     {% for item in query %}
                     <tr id="box" class="tableSet">
-                        <td><a href="{% url 'tracker:update_task' item.id %}"> {{ item.Task_Name }} </td>
+                        <td><a href="{% url 'tracker:update_task' item.id %}"> {{ item.Task_Name }}</a> </td>
                         <td> {{ item.Category }} </td>
                         <td id="goalDate"> {{ item.Goal_Date }} </td>
                         <td id="status"> {{ item.get_Status_display }} </td>

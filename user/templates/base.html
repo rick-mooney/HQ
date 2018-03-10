@@ -39,9 +39,11 @@
                     <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_week">This Week</a></li>
                     <li><a class="nav-item nav-link disabled" href="/tracker/task/?search=This_month">This Month</a></li>
                     <li><a class="nav-item nav-link" href="/tracker/task/?search=Completed_tasks">Completed</a></li>
+                    <li><a href="{% url 'tracker:export_tasks_csv' %}">Export all tasks</a></li>
                 </ul>
             </li>
             <li><a class="nav-item nav-link" href="{% url 'JQ:apps' %}"> JQ</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'tracker:bucketlist' %}">Bucketlist</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'user:about' %}">About</a></li>
