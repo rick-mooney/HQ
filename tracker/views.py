@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic import TemplateView, DeleteView, UpdateView
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Count
 
 import csv
 from datetime import datetime, timedelta, time
@@ -108,7 +109,7 @@ class ProjectView(TemplateView):
         new_project = request.POST.get('project_name')
         if new_project:
             Project.objects.create(Project_name=new_project, user=user)
-        query = Project.objects.all().filter(user=user)
+            query = Project.objects.all().filter(user=user)
         shared_projects = ProjectMember.objects.all().filter(Member=user)
         args = {'query': query, 'shared_projects':shared_projects}
         return render(request, self.template_name, args)
@@ -277,6 +278,7 @@ def delete_task(request, **kwargs):
         Task.objects.filter(id=task_id).delete()
         last_page = request.GET.get('last_page')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 class TaskEdit(TemplateView):
     template_name = 'edit_task.html'
 
@@ -339,6 +341,17 @@ class TaskEdit(TemplateView):
         query.save()
         next = request.POST.get('next','/')
         return HttpResponseRedirect(next)
+
+class BucketListView(TemplateView):
+    template_name= 'bucketlist.html'
+
+    def get(self, request):
+        user = request.user
+        query = Task.objects.all().filter(user=user, Project__Project_name = 'Bucketlist').exclude(Status = 'CO')
+        result = Task.objects.values('Category').annotate(Count('Task_Name')).filter(user=user, Project__Project_name = 'Bucketlist')
+        args = {'query': query, 'category': result}
+        return render(request, self.template_name, args)
+
 
 
 def export_tasks_csv(request):

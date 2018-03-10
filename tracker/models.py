@@ -8,6 +8,10 @@ class Project(models.Model):
     Project_name = models.CharField(max_length=255)
     Description = models.CharField(max_length=255,blank=True)
     CreateDate = models.DateField(auto_now_add=True)
+    #count_tasks = models.PositiveIntegerField()
+    #count_complete = models.PositiveIntegerField()
+    # percent_overdue = models.DecimalField(max_digits=3, decimal_places=2)
+    # percent_complete = models.DecimalField(max_digits=3, decimal_places=2)
     user = models.ForeignKey(User)
     def __str__(self):
         return self.Project_name
@@ -26,7 +30,7 @@ class Task(models.Model):
     )
     Task_Name = models.CharField(max_length=255)
     user = models.ForeignKey(User)
-    Project = models.ForeignKey(Project)
+    Project = models.ForeignKey(Project, related_name="tasks")
     Category = models.CharField(max_length=255, blank=True )
     Short_list = models.BooleanField(default=False, blank=True)
     Status = models.CharField(max_length=2, choices = status_choices)

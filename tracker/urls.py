@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^project/confirm_delete/(?P<pk>\d+)$', views.ProjectDelete.as_view(), name='delete_project'),
     url(r'^project/update/(?P<pk>\d+)$', views.ProjectEdit.as_view(), name='update_project'),
     url(r'^project/member_delete/(?P<pk>\d+)$', views.DeleteProjectMember.as_view(), name='delete_member'),
+    url(r'^task/bucketlist/*?$', views.BucketListView.as_view(), name='bucketlist'),
 
     url(r'^canvas/', views.canvas.as_view(), name='canvas'),
      ]
