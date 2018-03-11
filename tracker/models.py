@@ -8,10 +8,10 @@ class Project(models.Model):
     Project_name = models.CharField(max_length=255)
     Description = models.CharField(max_length=255,blank=True)
     CreateDate = models.DateField(auto_now_add=True)
-    #count_tasks = models.PositiveIntegerField()
-    #count_complete = models.PositiveIntegerField()
-    # percent_overdue = models.DecimalField(max_digits=3, decimal_places=2)
-    # percent_complete = models.DecimalField(max_digits=3, decimal_places=2)
+    count_tasks = models.PositiveIntegerField(null=True, default=0)
+    count_complete = models.PositiveIntegerField(null=True, default=0)
+    percent_overdue = models.PositiveIntegerField(null=True, default=0)
+    percent_complete = models.PositiveIntegerField(null=True, default=0)
     user = models.ForeignKey(User)
     def __str__(self):
         return self.Project_name

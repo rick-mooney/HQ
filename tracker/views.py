@@ -99,7 +99,7 @@ class ProjectView(TemplateView):
 
     def get(self, request):
         user = request.user
-        query = Project.objects.all().filter(user=user)
+        query = Project.objects.all().filter(user=user).order_by('Project_name')
         shared_projects = ProjectMember.objects.all().filter(Member=user)
         args = {'query': query, 'shared_projects':shared_projects}
         return render(request, self.template_name, args)
@@ -109,7 +109,7 @@ class ProjectView(TemplateView):
         new_project = request.POST.get('project_name')
         if new_project:
             Project.objects.create(Project_name=new_project, user=user)
-            query = Project.objects.all().filter(user=user)
+        query = Project.objects.all().filter(user=user).order_by('Project_name')
         shared_projects = ProjectMember.objects.all().filter(Member=user)
         args = {'query': query, 'shared_projects':shared_projects}
         return render(request, self.template_name, args)
@@ -339,6 +339,17 @@ class TaskEdit(TemplateView):
         if query.Status == 'CO':
             query.Complete_Date = datetime.now().date()
         query.save()
+        count_tasks = len(Task.objects.all().filter(Project = project_id))
+        complete_tasks = len(Task.objects.all().filter(Project = project_id, Status="CO"))
+        perc_complete = round((complete_tasks/count_tasks) * 100,0)
+        count_overdue = len(Task.objects.all().filter(Goal_Date__lt=datetime.now().date(), Project=project_id).exclude(Status="CO"))
+        perc_overdue = round((count_overdue/count_tasks) * 100,0)
+        project.count_tasks = count_tasks
+        project.count_complete = complete_tasks
+        project.percent_overdue = perc_overdue
+        project.percent_complete = perc_complete
+        project.save()
+
         next = request.POST.get('next','/')
         return HttpResponseRedirect(next)
 

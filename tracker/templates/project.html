@@ -17,7 +17,9 @@
         <div class="row">
           {% for item in query %}
              <a class="project-item" href="{% url 'tracker:project_list' item.id %}"> {{item.Project_name}}
-                 <br> <p class="mini-text"> {{item.tasks.count}} tasks </p> </a>
+                 <br> <p class="mini-text"> {{item.tasks.count}} tasks
+                 <br> {{item.percent_overdue}}% Overdue
+                 <br> {{item.percent_complete}}% Complete </p> </a>
              <a class="project-delete" id='deleteProject' href="{% url 'tracker:delete_project' item.id %}"> <span class="	glyphicon glyphicon-remove-circle"></span></a>
           {% endfor %}
         </div>
