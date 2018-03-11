@@ -308,7 +308,7 @@ class TaskEdit(TemplateView):
         elif user.id == task_owner:
             query = Task.objects.get(id=task_id, user=user)
             form = EditTaskForm(instance=query)
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form, 'query':query})
 
         else:
             return redirect('tracker:project')
